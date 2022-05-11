@@ -17,6 +17,7 @@ const AuthButtons: React.FC = () => {
           setModalState((prev) => ({
             ...prev,
             open: true,
+            view: "login",
           }));
         }}
       >
@@ -32,6 +33,7 @@ const AuthButtons: React.FC = () => {
           setModalState((prev) => ({
             ...prev,
             open: true,
+            view: "signup",
           }));
         }}
       >
