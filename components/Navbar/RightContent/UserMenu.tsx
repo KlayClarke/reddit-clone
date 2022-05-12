@@ -5,6 +5,7 @@ import {
   Icon,
   Menu,
   MenuButton,
+  MenuDivider,
   MenuItem,
   MenuList,
   Text,
@@ -45,12 +46,28 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                   mr={1}
                   color={"gray.300"}
                 />
+                <Flex
+                  direction={"column"}
+                  display={{ base: "none", lg: "flex" }}
+                  fontSize={"8pt"}
+                  align={"flex-start"}
+                  mr={8}
+                >
+                  <Text fontWeight={700}>
+                    {user?.displayName?.split(" ")[0] ||
+                      user?.email?.split("@")[0]}
+                  </Text>
+                  <Flex>
+                    <Icon as={IoSparkles} color={"brand.100"} mr={1} />
+                    <Text color={"gray.400"}>1 Karma</Text>
+                  </Flex>
+                </Flex>
               </>
             ) : (
               <Icon as={VscAccount} fontSize={24} color={"gray.400"} mr={1} />
             )}
           </Flex>
-          <ChevronDownIcon />
+          <ChevronDownIcon color={"gray.400"} />
         </Flex>
       </MenuButton>
       <MenuList>
@@ -66,12 +83,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                 Profile
               </Flex>
             </MenuItem>
+            <MenuDivider />
             <MenuItem
               fontSize={"10pt"}
               fontWeight={700}
               _hover={{ bg: "blue.500", color: "white" }}
-              borderTop={"1px solid"}
-              borderColor={"gray.200"}
               onClick={() => signOut(auth)}
             >
               <Flex align={"center"}>
@@ -86,8 +102,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               fontSize={"10pt"}
               fontWeight={700}
               _hover={{ bg: "blue.500", color: "white" }}
-              borderTop={"1px solid"}
-              borderColor={"gray.200"}
               onClick={() =>
                 setModalState((prev) => ({
                   ...prev,
