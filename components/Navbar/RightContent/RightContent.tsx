@@ -7,6 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../firebase/clientApp";
 import { signOut, User } from "firebase/auth";
 import Icons from "./Icons";
+import UserMenu from "./UserMenu";
 
 type RightContentProps = {
   user?: User | null;
@@ -19,6 +20,7 @@ const RightContent: React.FC<RightContentProps> = ({ user }) => {
       <Flex justify={"center"} align={"center"}>
         <AuthModal />
         {user ? <Icons /> : <AuthButtons />}
+        <UserMenu user={user} />
       </Flex>
     </>
   );
