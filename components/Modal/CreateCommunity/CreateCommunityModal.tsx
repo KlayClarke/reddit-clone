@@ -16,7 +16,13 @@ import {
   Flex,
   Icon,
 } from "@chakra-ui/react";
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  runTransaction,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { BsFillPersonFill, BsFillEyeFill } from "react-icons/bs";
@@ -74,19 +80,33 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
         "communities",
         communityName
       );
-      const communityDoc = await getDoc(communityDocumentReference); // find document based on reference / check if exists
-      if (communityDoc.exists()) {
-        // if community doc exists
-        throw new Error(
-          `The name r/${communityName} is already taken. Please try another!`
+
+      // create transaction connection
+      await runTransaction(firestore, async (transaction) => {
+        const communityDoc = await transaction.get(communityDocumentReference); // find document based on reference / check if exists
+        if (communityDoc.exists()) {
+          // if community doc exists
+          throw new Error(
+            `The name r/${communityName} is already taken. Please try another!`
+          );
+        }
+        // create community (only runs if community name is unique and valid)
+        transaction.set(communityDocumentReference, {
+          creatorId: user?.uid,
+          createdAt: serverTimestamp(), // create timestamp of current time
+          numberOfMembers: 1,
+          privacyType: communityType,
+        });
+
+        // create community snippet / reference to community on user
+        transaction.set(
+          doc(firestore, `users/${user?.uid}/communitySnippets`, communityName),
+          {
+            communityId: communityName,
+            isModerator: true,
+            
+          }
         );
-      }
-      // create community (only runs if community name is unique and valid)
-      await setDoc(communityDocumentReference, {
-        creatorId: user?.uid,
-        createdAt: serverTimestamp(), // create timestamp of current time
-        numberOfMembers: 1,
-        privacyType: communityType,
       });
     } catch (error: any) {
       console.log("handleCreateCommunity", error);
