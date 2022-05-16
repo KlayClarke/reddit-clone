@@ -50,6 +50,10 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
     setCommunityType(event.target.name);
   };
   const handleCreateCommunity = async () => {
+    if (error) {
+      // clear error for new submit request
+      setError("");
+    }
     // validate community name
     const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (format.test(communityName)) {
