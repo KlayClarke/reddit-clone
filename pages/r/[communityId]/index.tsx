@@ -10,6 +10,9 @@ type CommunityPageProps = {
 };
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
+  if (!communityData) {
+    return <div>Does not exist</div>;
+  }
   return <div>{communityData.id}</div>;
 };
 
@@ -24,12 +27,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     const communityDocument = await getDoc(communityDocumentReference);
     return {
       props: {
-        communityData: JSON.parse(
-          safeJsonStringify({
-            id: communityDocument.id,
-            ...communityDocument.data(),
-          })
-        ), // extract data from community document
+        communityData: communityDocument.exists()
+          ? JSON.parse(
+              safeJsonStringify({
+                id: communityDocument.id,
+                ...communityDocument.data(),
+              })
+            )
+          : "", // extract data from community document
       },
     };
   } catch (error) {
