@@ -19,6 +19,7 @@ const TabItem: React.FC<TabItemProps> = ({
       align={"center"}
       flexGrow={1}
       p={"14px 0px"}
+      fontWeight={700}
       cursor={"pointer"}
       _hover={{ bg: "gray.50" }}
       color={selected ? "blue.500" : "gray.500"}
