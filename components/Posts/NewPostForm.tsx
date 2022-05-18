@@ -80,7 +80,6 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
       numberOfComments: 0,
       voteStatus: 0,
       createdAt: serverTimestamp() as Timestamp,
-      id: "",
     };
     setLoading(true);
     try {
@@ -97,7 +96,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
           `posts/${postDocumentReference.id}/image`
         );
         await uploadString(imageRef, selectedFile, "data_url");
-        const downloadURL = getDownloadURL(imageRef);
+        const downloadURL = await getDownloadURL(imageRef);
 
         // update post document by adding image url
         await updateDoc(postDocumentReference, {
