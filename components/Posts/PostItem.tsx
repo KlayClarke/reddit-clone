@@ -22,6 +22,7 @@ import {
 } from "react-icons/io5";
 import { AiOutlineDelete } from "react-icons/ai";
 import { Post } from "../../atoms/postsAtom";
+import { useRouter } from "next/router";
 
 type PostItemProps = {
   post: Post;
@@ -45,6 +46,7 @@ const PostItem: React.FC<PostItemProps> = ({
   onSelectPost,
   onDeletePost,
 }) => {
+  const router = useRouter();
   const [loadingImage, setLoadingImage] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const singlePostPage = !onSelectPost;
@@ -58,6 +60,9 @@ const PostItem: React.FC<PostItemProps> = ({
       const success = await onDeletePost(post);
       if (!success) {
         throw new Error("Failed to delete post");
+      }
+      if (singlePostPage) {
+        router.push(`/r/${post.communityId}`);
       }
     } catch (error: any) {
       setError(error.message);
