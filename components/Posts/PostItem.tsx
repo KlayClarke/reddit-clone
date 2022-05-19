@@ -49,7 +49,10 @@ const PostItem: React.FC<PostItemProps> = ({
   const [loadingDelete, setLoadingDelete] = useState(false);
   const singlePostPage = !onSelectPost;
   const [error, setError] = useState(false);
-  const handleDelete = async () => {
+  const handleDelete = async (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
     setLoadingDelete(true);
     try {
       const success = await onDeletePost(post);
