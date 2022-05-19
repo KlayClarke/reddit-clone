@@ -8,6 +8,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -17,6 +18,7 @@ import { Post, postState, PostVote } from "../atoms/postsAtom";
 import { auth, firestore, storage } from "../firebase/clientApp";
 
 const usePosts = () => {
+  const router = useRouter();
   const [user] = useAuthState(auth);
   const [postStateValue, setPostStateValue] = useRecoilState(postState);
   const currentCommunity = useRecoilValue(communityState).currentCommunity;
@@ -114,7 +116,13 @@ const usePosts = () => {
       console.log("onVote error: ", error);
     }
   };
-  const onSelectPost = () => {};
+  const onSelectPost = (post: Post) => {
+    setPostStateValue((prev) => ({
+      ...prev,
+      selectedPost: post,
+    }));
+    router.push(`/r/${currentCommunity?.id}/comments/${post.id}`);
+  };
   const onDeletePost = async (post: Post): Promise<boolean> => {
     try {
       // if image in post, delete image from storage on firebase
