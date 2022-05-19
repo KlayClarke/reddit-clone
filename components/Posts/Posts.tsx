@@ -67,7 +67,7 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
                   ?.voteValue
               }
               onVote={onVote}
-              onSelectPost={onSelectPost}
+              onSelectPost={() => onSelectPost(item)}
               onDeletePost={onDeletePost}
             />
           ))}
