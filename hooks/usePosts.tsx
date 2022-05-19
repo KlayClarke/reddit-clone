@@ -1,15 +1,32 @@
-import { collection, deleteDoc, doc, writeBatch } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+  writeBatch,
+} from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { AuthModalState } from "../atoms/authModalAtom";
+import { communityState } from "../atoms/communitiesAtom";
 import { Post, postState, PostVote } from "../atoms/postsAtom";
 import { auth, firestore, storage } from "../firebase/clientApp";
 
 const usePosts = () => {
   const [user] = useAuthState(auth);
   const [postStateValue, setPostStateValue] = useRecoilState(postState);
+  const currentCommunity = useRecoilValue(communityState).currentCommunity;
+  const setAuthModalState = useSetRecoilState(AuthModalState);
   const onVote = async (post: Post, vote: number, communityId: string) => {
+    // if user not authenticated, open modal, on successful login, handle vote
+    if (!user) {
+      setAuthModalState({ open: true, view: "login" });
+      return;
+    }
     try {
       const { voteStatus } = post;
       const existingVote = postStateValue.postVotes.find(
@@ -118,6 +135,37 @@ const usePosts = () => {
       return false;
     }
   };
+  const getCommunityPostVotes = async (communityId: string) => {
+    const postVotesQuery = query(
+      collection(firestore, "users", `${user?.uid}/postVotes`),
+      where("communityId", "==", communityId)
+    );
+    const postVoteDocuments = await getDocs(postVotesQuery);
+    const postVotes = postVoteDocuments.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setPostStateValue((prev) => ({
+      ...prev,
+      postVotes: postVotes as PostVote[],
+    }));
+  };
+
+  useEffect(() => {
+    if (!user || !currentCommunity) return; // if no user or current community, useless
+    getCommunityPostVotes(currentCommunity?.id);
+  }, [user, currentCommunity]); // rerender on change of user or current community
+
+  useEffect(() => {
+    if (!user) {
+      // clear users post votes when user not authenticated
+      setPostStateValue((prev) => ({
+        ...prev,
+        postVotes: [],
+      }));
+    }
+  }, [user]);
+
   return {
     postStateValue,
     setPostStateValue,
