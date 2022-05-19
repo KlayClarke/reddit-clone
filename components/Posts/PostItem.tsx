@@ -28,7 +28,7 @@ type PostItemProps = {
   userIsCreator: boolean;
   userVoteValue?: number;
   onVote: (post: Post, vote: number, communityId: string) => void;
-  onSelectPost?: () => void;
+  onSelectPost?: (post: Post) => void;
   onDeletePost: (post: Post) => Promise<boolean>;
 };
 
@@ -65,7 +65,7 @@ const PostItem: React.FC<PostItemProps> = ({
         borderColor: "gray.500",
       }}
       cursor={"pointer"}
-      onClick={onSelectPost}
+      onClick={() => onSelectPost && onSelectPost(post)}
     >
       <Flex
         direction={"column"}
