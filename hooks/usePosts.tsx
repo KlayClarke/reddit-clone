@@ -23,7 +23,13 @@ const usePosts = () => {
   const [postStateValue, setPostStateValue] = useRecoilState(postState);
   const currentCommunity = useRecoilValue(communityState).currentCommunity;
   const setAuthModalState = useSetRecoilState(AuthModalState);
-  const onVote = async (post: Post, vote: number, communityId: string) => {
+  const onVote = async (
+    event: React.MouseEvent<SVGElement, MouseEvent>,
+    post: Post,
+    vote: number,
+    communityId: string
+  ) => {
+    event.stopPropagation();
     // if user not authenticated, open modal, on successful login, handle vote
     if (!user) {
       setAuthModalState({ open: true, view: "login" });
@@ -93,14 +99,6 @@ const usePosts = () => {
           voteChange = 2 * vote;
         }
       }
-      // update post document
-      const postReference = doc(firestore, "posts", post.id!);
-      batch.update(postReference, {
-        voteStatus: voteStatus + voteChange,
-      });
-
-      // commit changes on firestore database
-      await batch.commit();
 
       // update state with updated postVotes
       const postIndex = postStateValue.posts.findIndex(
@@ -112,6 +110,22 @@ const usePosts = () => {
         posts: updatedPosts,
         postVotes: updatedPostVotes,
       }));
+
+      if (postStateValue.selectedPost) {
+        setPostStateValue((prev) => ({
+          ...prev,
+          selectedPost: updatedPost,
+        }));
+      }
+
+      // update post document
+      const postReference = doc(firestore, "posts", post.id!);
+      batch.update(postReference, {
+        voteStatus: voteStatus + voteChange,
+      });
+
+      // commit changes on firestore database
+      await batch.commit();
     } catch (error) {
       console.log("onVote error: ", error);
     }
