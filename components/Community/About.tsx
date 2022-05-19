@@ -4,16 +4,25 @@ import {
   Divider,
   Flex,
   Icon,
+  Image,
+  Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { doc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useRef, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { FaReddit } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiCakeLine } from "react-icons/ri";
-import { Community } from "../../atoms/communitiesAtom";
+import { useSetRecoilState } from "recoil";
+import { Community, communityState } from "../../atoms/communitiesAtom";
+import { auth, firestore, storage } from "../../firebase/clientApp";
+import useSelectFile from "../../hooks/useSelectFile";
 
 type AboutProps = {
   communityData: Community;
@@ -21,6 +30,35 @@ type AboutProps = {
 
 const About: React.FC<AboutProps> = ({ communityData }) => {
   const router = useRouter();
+  const [user] = useAuthState(auth);
+  const selectedFileRef = useRef<HTMLInputElement>(null);
+  const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
+  const [uploadingImage, setUploadingImage] = useState<boolean>(false);
+  const setCommunityStateValue = useSetRecoilState(communityState);
+  const onUpdateImage = async () => {
+    if (!selectedFile) return; // if there is no file to upload, exit function
+    setUploadingImage(true);
+    try {
+      const imageRef = ref(storage, `communities/${communityData.id}/image`);
+      await uploadString(imageRef, selectedFile, "data_url");
+      const downloadURL = await getDownloadURL(imageRef);
+      await updateDoc(doc(firestore, "communities", communityData.id), {
+        imageURL: downloadURL,
+      });
+      // update community state image url
+      setCommunityStateValue((prev) => ({
+        ...prev,
+        currentCommunity: {
+          ...prev.currentCommunity,
+          imageURL: downloadURL,
+        } as Community,
+      }));
+    } catch (error) {
+      console.log("error onUpdateImage: ", error);
+    }
+    setSelectedFile("");
+    setUploadingImage(false);
+  };
   return (
     <Box position={"sticky"} top={"14px"}>
       <Flex
@@ -71,11 +109,65 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
               </Text>
             )}
           </Flex>
-          <Link href={`/r/${router.query.communityId}/submit`}>
+          <Link href={`/r/${communityData.id}/submit`}>
             <Button mt={3} height={"30px"}>
               Create Post
             </Button>
           </Link>
+          {user?.uid === communityData.creatorId && (
+            <>
+              <Divider />
+              <Stack spacing={1} fontSize={"10pt"}>
+                <Text fontWeight={600}>Admin</Text>
+                <Flex align={"center"} justify={"space-between"}>
+                  <Text
+                    color={"blue.500"}
+                    cursor={"pointer"}
+                    _hover={{ textDecoration: "underline" }}
+                    onClick={() => selectedFileRef.current?.click()}
+                  >
+                    Change Image
+                  </Text>
+                  {communityData.imageURL || selectedFile ? (
+                    <Image
+                      src={selectedFile || communityData.imageURL}
+                      borderRadius={"full"}
+                      boxSize={"40px"}
+                      alt={"community image"}
+                    />
+                  ) : (
+                    <Icon
+                      as={FaReddit}
+                      fontSize={40}
+                      color={"brand.100"}
+                      mr={4}
+                    />
+                  )}
+                </Flex>
+                {selectedFile &&
+                  (uploadingImage ? (
+                    <Spinner />
+                  ) : (
+                    <Text
+                      color={"blue.500"}
+                      cursor={"pointer"}
+                      _hover={{ textDecoration: "underline" }}
+                      onClick={onUpdateImage}
+                    >
+                      Save Changes
+                    </Text>
+                  ))}
+                <input
+                  id="file-upload"
+                  type={"file"}
+                  accept={"image/x-png,image.gif,image/jpeg"}
+                  hidden
+                  ref={selectedFileRef}
+                  onChange={onSelectFile}
+                />
+              </Stack>
+            </>
+          )}
         </Stack>
       </Flex>
     </Box>
