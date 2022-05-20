@@ -1,8 +1,8 @@
 ## Description
 
-I decided to create this Reddit clone to learn Typescript. Before this project, I didn't understand the benefits of learning Typescript (while working on my JS portfolio, nonetheless). I now understand that many of the problems I'd faced while trying to deploy previous applications would've been resolved had I made the effort to learn Typescript sooner.
+I decided to create this Reddit clone to learn Typescript. Before this project, I didn't understand the benefits of learning Typescript (may've had tunnel vision while working on my JS portfolio). I now understand that many of the problems I'd faced while trying to deploy previous applications would've been prevented had I learned Typescript sooner.
 
-This project was also the first time that I'd used Chakra Ui for styles, and the first time that I'd used Google Firebase for storage, as opposed to my preferred MongoDB.
+This project was also the first time that I'd used Chakra UI for styles, and the first time that I'd used Google Firebase for storage, as opposed to my preferred MongoDB.
 
 ## Where Did The Idea Come From
 
