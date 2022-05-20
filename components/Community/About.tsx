@@ -19,7 +19,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { FaReddit } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiCakeLine } from "react-icons/ri";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Community, communityState } from "../../atoms/communitiesAtom";
 import { auth, firestore, storage } from "../../firebase/clientApp";
 import useSelectFile from "../../hooks/useSelectFile";
@@ -35,6 +35,7 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
   const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
   const setCommunityStateValue = useSetRecoilState(communityState);
+  const mySnippets = useRecoilValue(communityState).mySnippets;
   const onUpdateImage = async () => {
     if (!selectedFile) return; // if there is no file to upload, exit function
     setUploadingImage(true);
@@ -109,11 +110,16 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
               </Text>
             )}
           </Flex>
-          <Link href={`/r/${communityData.id}/submit`}>
-            <Button mt={3} height={"30px"}>
-              Create Post
-            </Button>
-          </Link>
+          {user &&
+            mySnippets.filter(
+              (snippet) => snippet.communityId === communityData.id
+            ) && (
+              <Link href={`/r/${communityData.id}/submit`}>
+                <Button mt={3} height={"30px"}>
+                  Create Post
+                </Button>
+              </Link>
+            )}
           {user?.uid === communityData.creatorId && (
             <>
               <Divider />
