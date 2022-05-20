@@ -124,6 +124,7 @@ const PostItem: React.FC<PostItemProps> = ({
             spacing={0.6}
             align="center"
             fontSize={"9pt"}
+            color={"gray.500"}
           >
             <Text>
               Posted by u/{post.creatorDisplayName}{" "}
