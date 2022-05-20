@@ -128,6 +128,7 @@ const useCommunityData = () => {
   }, [user]);
   return {
     communityStateValue,
+    setCommunityStateValue,
     onJoinOrLeaveCommunity,
     loading,
   };
