@@ -16,10 +16,9 @@ const useDirectory = () => {
       selectedMenuItem: menuItem,
     }));
     router.push(menuItem.link);
-    setDirectoryState((prev) => ({
-      ...prev,
-      isOpen: false,
-    }));
+    if (directoryState.isOpen) {
+      toggleMenuOpen();
+    }
   };
   const toggleMenuOpen = () => {
     setDirectoryState((prev) => ({
