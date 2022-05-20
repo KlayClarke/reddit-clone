@@ -6,6 +6,7 @@ import { TiHome } from "react-icons/ti";
 import { useRecoilState } from "recoil";
 import { AuthModalState } from "../../../atoms/authModalAtom";
 import { auth } from "../../../firebase/clientApp";
+import useDirectory from "../../../hooks/useDirectory";
 import Communities from "./Communities";
 
 type DirectoryProps = {
@@ -14,8 +15,9 @@ type DirectoryProps = {
 
 const Directory: React.FC<DirectoryProps> = ({ user }) => {
   const [modalState, setModalState] = useRecoilState(AuthModalState);
+  const { directoryState, toggleMenuOpen } = useDirectory();
   return (
-    <Menu>
+    <Menu isOpen={directoryState.isOpen}>
       <MenuButton
         cursor={"pointer"}
         padding={"0px 6px"}
@@ -23,6 +25,7 @@ const Directory: React.FC<DirectoryProps> = ({ user }) => {
         _hover={{ outline: "1px solid", outlineColor: "gray.200" }}
         mr={2}
         ml={1}
+        onClick={toggleMenuOpen}
       >
         <Flex align={"center"} justify={"space-between"} width={"auto"}>
           <Flex align={"center"}>
