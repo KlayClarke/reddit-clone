@@ -21,8 +21,8 @@ import {
   getDoc,
   runTransaction,
   serverTimestamp,
-  setDoc,
 } from "firebase/firestore";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { BsFillPersonFill, BsFillEyeFill } from "react-icons/bs";
@@ -38,6 +38,7 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
   open,
   handleClose,
 }) => {
+  const router = useRouter();
   const [user] = useAuthState(auth);
   const [communityName, setCommunityName] = useState("");
   const [charsRemaining, setCharsRemaining] = useState(21);
@@ -104,15 +105,15 @@ const CreateCommunityModal: React.FC<CreateCommunityModalProps> = ({
           {
             communityId: communityName,
             isModerator: true,
-            
           }
         );
       });
+      router.push(`/r/${communityName}`);
+      handleClose();
     } catch (error: any) {
       console.log("handleCreateCommunity", error);
       setError(error.message);
     }
-
     // set loading state to false after document creation is complete
     setLoading(false);
   };
