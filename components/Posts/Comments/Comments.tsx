@@ -10,7 +10,8 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Post } from "../../../atoms/postsAtom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { Post, postState } from "../../../atoms/postsAtom";
 import { auth, firestore } from "../../../firebase/clientApp";
 import CommentInput from "./CommentInput";
 
@@ -40,6 +41,7 @@ const Comments: React.FC<CommentsProps> = ({
   const [comments, setComments] = useState<Comment[]>([]);
   const [fetchLoading, setFetchLoading] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
+  const setPostState = useSetRecoilState(postState);
   const onCreateComment = async () => {
     setCreateLoading(true);
     try {
@@ -66,6 +68,13 @@ const Comments: React.FC<CommentsProps> = ({
       // update recoil state
       setCommentText("");
       setComments((prev) => [newComment, ...prev]);
+      setPostState((prev) => ({
+        ...prev,
+        selectedPost: {
+          ...prev.selectedPost,
+          numberOfComments: prev.selectedPost?.numberOfComments! + 1,
+        } as Post,
+      }));
     } catch (error) {
       console.log("onCreateComment error: ", error);
     }
