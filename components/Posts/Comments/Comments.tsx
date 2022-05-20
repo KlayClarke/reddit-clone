@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Stack } from "@chakra-ui/react";
 import { Timestamp } from "@google-cloud/firestore";
 import { User } from "firebase/auth";
 import {
@@ -14,22 +14,12 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { Post, postState } from "../../../atoms/postsAtom";
 import { auth, firestore } from "../../../firebase/clientApp";
 import CommentInput from "./CommentInput";
+import CommentItem, { Comment } from "./CommentItem";
 
 type CommentsProps = {
   user: User;
   selectedPost: Post | null;
   communityId: string;
-};
-
-export type Comment = {
-  id: string;
-  creatorId: string;
-  creatorDisplayText: string;
-  communityId: string;
-  postId: string;
-  postTitle: string;
-  text: string;
-  createdAt: Timestamp;
 };
 
 const Comments: React.FC<CommentsProps> = ({
@@ -59,6 +49,13 @@ const Comments: React.FC<CommentsProps> = ({
         createdAt: serverTimestamp() as Timestamp,
       };
       batch.set(commentDocumentReference, newComment);
+
+      // change comment's createdAt so that it renders on client immediately without need to re-render / fetch full comments list
+
+      newComment.createdAt = {
+        seconds: Date.now() / 1000,
+      } as Timestamp;
+
       // update post's number of comments
       const postDocumentReference = doc(firestore, "posts", selectedPost?.id!);
       batch.update(postDocumentReference, {
@@ -111,6 +108,16 @@ const Comments: React.FC<CommentsProps> = ({
           onCreateComment={onCreateComment}
         />
       </Flex>
+      <Stack spacing={6}>
+        {comments.map((comment) => (
+          <CommentItem
+            comment={comment}
+            onDeleteComment={onDeleteComment}
+            loadingDelete={false}
+            userId={user.uid}
+          />
+        ))}
+      </Stack>
     </Box>
   );
 };
