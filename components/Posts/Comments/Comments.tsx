@@ -42,6 +42,7 @@ const Comments: React.FC<CommentsProps> = ({
   const [comments, setComments] = useState<Comment[]>([]);
   const [fetchLoading, setFetchLoading] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
+  const [loadingDeleteId, setLoadingDeleteId] = useState("");
   const setPostState = useSetRecoilState(postState);
   const onCreateComment = async () => {
     setCreateLoading(true);
@@ -88,14 +89,36 @@ const Comments: React.FC<CommentsProps> = ({
     }
     setCreateLoading(false);
   };
-  const onDeleteComment = async (comment: any) => {
-    // delete comment document
+  const onDeleteComment = async (comment: Comment) => {
+    setLoadingDeleteId(comment.id);
     try {
+      const batch = writeBatch(firestore);
+      // delete comment document
+      const commentDocumentReference = doc(firestore, "comments", comment.id);
+      batch.delete(commentDocumentReference);
+
+      // update post's number of comments
+      const postDocumentReference = doc(firestore, "posts", selectedPost?.id!);
+      batch.update(postDocumentReference, {
+        numberOfComments: increment(-1),
+      });
+      await batch.commit();
+
+      // update recoil state
+      setPostState((prev) => ({
+        ...prev,
+        selectedPost: {
+          ...prev.selectedPost,
+          numberOfComments: prev.selectedPost?.numberOfComments! - 1,
+        } as Post,
+      }));
+
+      // remove comment from our comments state array
+      setComments((prev) => prev.filter((item) => item.id !== comment.id));
     } catch (error) {
       console.log("onDeleteComment error: ", error);
     }
-    // update post's number of comments
-    // update recoil state
+    setLoadingDeleteId("");
   };
   const getPostComments = async () => {
     setFetchLoading(true);
@@ -172,8 +195,8 @@ const Comments: React.FC<CommentsProps> = ({
                     key={comment.id}
                     comment={comment}
                     onDeleteComment={onDeleteComment}
-                    loadingDelete={false}
-                    userId={user.uid}
+                    loadingDelete={loadingDeleteId === comment.id}
+                    userId={user?.uid}
                   />
                 ))}
               </>
