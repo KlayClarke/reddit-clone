@@ -97,6 +97,7 @@ const PostItem: React.FC<PostItemProps> = ({
           fontSize={22}
           onClick={(event) => onVote(event, post, 1, post.communityId)}
           cursor={"pointer"}
+          _hover={{ bg: "gray.200", borderRadius: "sm", color: "brand.100" }}
         />
         <Text fontSize={"9pt"}>{post.voteStatus}</Text>
         <Icon
@@ -109,6 +110,7 @@ const PostItem: React.FC<PostItemProps> = ({
           fontSize={22}
           onClick={(event) => onVote(event, post, -1, post.communityId)}
           cursor={"pointer"}
+          _hover={{ bg: "gray.200", borderRadius: "sm", color: "#4379ff" }}
         />
       </Flex>
       <Flex direction={"column"} width={"100%"}>
@@ -150,7 +152,7 @@ const PostItem: React.FC<PostItemProps> = ({
             </Flex>
           )}
         </Stack>
-        <Flex ml={1} mb={0.5} color={"gray.500"}>
+        <Flex ml={1} mb={0.5} color={"gray.500"} fontWeight={800}>
           <Flex
             align={"center"}
             p={"8px 10px"}
@@ -159,7 +161,7 @@ const PostItem: React.FC<PostItemProps> = ({
             cursor={"pointer"}
           >
             <Icon as={BsChat} mr={2} />
-            <Text fontSize={"9pt"}>{post.numberOfComments}</Text>
+            <Text fontSize={"9pt"}>{post.numberOfComments} Comments</Text>
           </Flex>
           <Flex
             align={"center"}
