@@ -11,8 +11,12 @@ import { User } from "firebase/auth";
 import {
   collection,
   doc,
+  getDocs,
   increment,
+  orderBy,
+  query,
   serverTimestamp,
+  where,
   writeBatch,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -93,10 +97,29 @@ const Comments: React.FC<CommentsProps> = ({
     // update post's number of comments
     // update recoil state
   };
-  const getPostComments = async () => {};
+  const getPostComments = async () => {
+    setFetchLoading(true);
+    try {
+      const commentsQuery = query(
+        collection(firestore, "comments"),
+        where("postId", "==", selectedPost?.id),
+        orderBy("createdAt", "desc")
+      );
+      const commentDocuments = await getDocs(commentsQuery);
+      const comments = commentDocuments.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setComments(comments as Comment[]);
+    } catch (error) {
+      console.log("getPostComments error: ", error);
+    }
+    setFetchLoading(false);
+  };
   useEffect(() => {
+    if (!selectedPost) return;
     getPostComments();
-  }, []);
+  }, [selectedPost]);
   return (
     <Box bg={"white"} borderRadius={"0px 0px 4px 4px"} p={2}>
       <Flex
@@ -107,13 +130,15 @@ const Comments: React.FC<CommentsProps> = ({
         fontSize={"10pt"}
         width={"100%"}
       >
-        <CommentInput
-          commentText={commentText}
-          setCommentText={setCommentText}
-          user={user}
-          createLoading={createLoading}
-          onCreateComment={onCreateComment}
-        />
+        {!fetchLoading && (
+          <CommentInput
+            commentText={commentText}
+            setCommentText={setCommentText}
+            user={user}
+            createLoading={createLoading}
+            onCreateComment={onCreateComment}
+          />
+        )}
       </Flex>
       <Stack spacing={6} p={2}>
         {fetchLoading ? (
@@ -144,6 +169,7 @@ const Comments: React.FC<CommentsProps> = ({
               <>
                 {comments.map((comment) => (
                   <CommentItem
+                    key={comment.id}
                     comment={comment}
                     onDeleteComment={onDeleteComment}
                     loadingDelete={false}
