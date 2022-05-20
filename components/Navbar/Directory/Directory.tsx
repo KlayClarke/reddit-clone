@@ -1,5 +1,13 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Flex, Icon, Menu, MenuButton, MenuList, Text } from "@chakra-ui/react";
+import {
+  Flex,
+  Icon,
+  Image,
+  Menu,
+  MenuButton,
+  MenuList,
+  Text,
+} from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import React from "react";
 import { TiHome } from "react-icons/ti";
@@ -9,11 +17,7 @@ import { auth } from "../../../firebase/clientApp";
 import useDirectory from "../../../hooks/useDirectory";
 import Communities from "./Communities";
 
-type DirectoryProps = {
-  user?: User | null;
-};
-
-const Directory: React.FC<DirectoryProps> = ({ user }) => {
+const Directory: React.FC = () => {
   const [modalState, setModalState] = useRecoilState(AuthModalState);
   const { directoryState, toggleMenuOpen } = useDirectory();
   return (
@@ -29,10 +33,24 @@ const Directory: React.FC<DirectoryProps> = ({ user }) => {
       >
         <Flex align={"center"} justify={"space-between"} width={"auto"}>
           <Flex align={"center"}>
-            <Icon as={TiHome} fontSize={24} mr={{ base: 1, md: 2 }} />
+            {directoryState.selectedMenuItem.imageURL ? (
+              <Image
+                src={directoryState.selectedMenuItem.imageURL}
+                borderRadius={"full"}
+                boxSize={"24px"}
+                mr={2}
+              />
+            ) : (
+              <Icon
+                as={directoryState.selectedMenuItem.icon}
+                color={directoryState.selectedMenuItem.iconColor}
+                fontSize={24}
+                mr={{ base: 1, md: 2 }}
+              />
+            )}
             <Flex display={{ base: "none", md: "flex" }}>
               <Text fontWeight={600} fontSize={"10pt"}>
-                Home
+                {directoryState.selectedMenuItem.displayText}
               </Text>
             </Flex>
           </Flex>
