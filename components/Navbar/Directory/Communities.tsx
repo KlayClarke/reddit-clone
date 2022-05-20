@@ -7,9 +7,11 @@ import { communityState } from "../../../atoms/communitiesAtom";
 import MenuListItem from "./MenuListItem";
 import { FaReddit } from "react-icons/fa";
 
-type CommunitiesProps = {};
+type CommunitiesProps = {
+  toggleMenuOpen: () => void;
+};
 
-const Communities: React.FC<CommunitiesProps> = () => {
+const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
   const [open, setOpen] = useState(false);
   const mySnippets = useRecoilValue(communityState).mySnippets;
   return (
@@ -50,7 +52,9 @@ const Communities: React.FC<CommunitiesProps> = () => {
         <MenuItem
           width={"100%"}
           fontSize={"10pt"}
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true), toggleMenuOpen();
+          }}
         >
           <Flex align={"center"}>
             <Icon as={GrAdd} fontSize={20} mr={2} />
