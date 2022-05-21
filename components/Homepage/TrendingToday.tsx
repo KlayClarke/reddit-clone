@@ -12,7 +12,7 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
 
   return (
     <Flex justify={"center"} p={"16px 0px"}>
-      <Flex width={"100%"} maxWidth={"860px"}>
+      <Flex width={"95%"} maxWidth={"860px"}>
         <Stack>
           <Text fontSize={"10pt"} fontWeight={600} mb={4}>
             Trending today
@@ -24,12 +24,15 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
               .slice(0, 3)
               .map((post) => (
                 <>
-                  <Box maxW="300px">
+                  <Box maxW="300px" width={"100%"}>
                     <Image
                       borderRadius="md"
                       src={post.imageURL}
                       _hover={{ cursor: "pointer" }}
                       onClick={() => onSelectPost(post)}
+                      objectFit={"cover"}
+                      height={"100%"}
+                      filter={"brightness(75%)"}
                     />
                   </Box>{" "}
                 </>
