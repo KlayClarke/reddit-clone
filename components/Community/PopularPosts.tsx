@@ -82,6 +82,7 @@ const PopularPosts: React.FC<PopularPostsProps> = () => {
               _hover={{ bg: "gray.100", cursor: "pointer" }}
               borderRadius={"full"}
               p={"4px 8px"}
+              display={{ md: "none", xl: "flex" }}
             >
               <Icon
                 as={IoPodiumOutline}
@@ -100,7 +101,7 @@ const PopularPosts: React.FC<PopularPostsProps> = () => {
               _hover={{ bg: "gray.100", cursor: "pointer" }}
               borderRadius={"full"}
               p={"8px"}
-              display={{ lg: "none", xl: "flex" }}
+              display={{ md: "none", xl: "flex" }}
             />
           </Flex>
         </Flex>
