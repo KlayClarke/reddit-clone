@@ -17,27 +17,31 @@ const Navbar: React.FC = () => {
       padding="6px 12px"
       justify={"space-between"}
     >
-      <Flex
-        align={"center"}
-        onClick={() => {
-          router.push("/");
-        }}
-        _hover={{ cursor: "pointer" }}
-      >
-        <Image
-          src="/images/redditFace.svg"
-          height={"30px"}
-          mr={{ base: 2, md: 0 }}
-        />
-        <Image
-          src="/images/redditText.svg"
-          height={"48px"}
-          display={{ base: "none", md: "unset" }} // hide on small screens
-        />
-      </Flex>
-      {user && <Directory />}
-      <SearchInput user={user} />
-      <RightContent user={user} />
+      {!loading && (
+        <>
+          <Flex
+            align={"center"}
+            onClick={() => {
+              router.push("/");
+            }}
+            _hover={{ cursor: "pointer" }}
+          >
+            <Image
+              src="/images/redditFace.svg"
+              height={"30px"}
+              mr={{ base: 2, md: 0 }}
+            />
+            <Image
+              src="/images/redditText.svg"
+              height={"48px"}
+              display={{ base: "none", md: "unset" }} // hide on small screens
+            />
+          </Flex>
+          {user && <Directory />}
+          <SearchInput user={user} />
+          <RightContent user={user} />
+        </>
+      )}
     </Flex>
   );
 };
