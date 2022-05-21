@@ -58,7 +58,7 @@ const Directory: React.FC = () => {
         </Flex>
       </MenuButton>
       <MenuList>
-        <Communities />
+        <Communities toggleMenuOpen={toggleMenuOpen} />
       </MenuList>
     </Menu>
   );
