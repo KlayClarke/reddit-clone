@@ -114,7 +114,7 @@ const PopularPosts: React.FC<PopularPostsProps> = () => {
           <Icon
             as={BsCardHeading}
             fontSize={24}
-            color={"gray.400"}
+            color={"gray.300"}
             cursor={"pointer"}
             mr={1}
           />
