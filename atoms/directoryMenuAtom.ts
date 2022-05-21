@@ -16,7 +16,7 @@ interface DirectoryMenuState {
 }
 
 export const defaultMenuItem: DirectoryMenuItem = {
-  displayText: "Home",
+  displayText: "r/popular",
   link: "/",
   iconColor: "black",
 };
