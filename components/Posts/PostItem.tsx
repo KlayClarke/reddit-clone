@@ -194,7 +194,9 @@ const PostItem: React.FC<PostItemProps> = ({
             cursor={"pointer"}
           >
             <Icon as={BsChat} mr={2} />
-            <Text fontSize={"9pt"}>{post.numberOfComments} Comments</Text>
+            <Text fontSize={"9pt"} display={{ base: "none", sm: "unset" }}>
+              {post.numberOfComments} Comments
+            </Text>
           </Flex>
           <Flex
             align={"center"}
@@ -204,7 +206,9 @@ const PostItem: React.FC<PostItemProps> = ({
             cursor={"pointer"}
           >
             <Icon as={IoArrowRedoOutline} mr={2} />
-            <Text fontSize={"9pt"}>Share</Text>
+            <Text fontSize={"9pt"} display={{ base: "none", sm: "unset" }}>
+              Share
+            </Text>
           </Flex>
           <Flex
             align={"center"}
@@ -214,7 +218,9 @@ const PostItem: React.FC<PostItemProps> = ({
             cursor={"pointer"}
           >
             <Icon as={IoBookmarkOutline} mr={2} />
-            <Text fontSize={"9pt"}>Save</Text>
+            <Text fontSize={"9pt"} display={{ base: "none", sm: "unset" }}>
+              Save
+            </Text>
           </Flex>
           {userIsCreator && (
             <Flex
@@ -230,7 +236,12 @@ const PostItem: React.FC<PostItemProps> = ({
               ) : (
                 <>
                   <Icon as={AiOutlineDelete} mr={2} />
-                  <Text fontSize={"9pt"}>Delete</Text>
+                  <Text
+                    fontSize={"9pt"}
+                    display={{ base: "none", sm: "unset" }}
+                  >
+                    Delete
+                  </Text>
                 </>
               )}
             </Flex>
