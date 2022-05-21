@@ -29,8 +29,9 @@ const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
         </Text>
         {mySnippets
           .filter((snippet) => snippet.isModerator)
-          .map((snippet) => (
+          .map((snippet, index) => (
             <MenuListItem
+              key={index}
               displayText={`r/${snippet.communityId}`}
               link={`/r/${snippet.communityId}`}
               icon={FaReddit}
@@ -61,8 +62,9 @@ const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
             <Flex>Create Community</Flex>
           </Flex>
         </MenuItem>
-        {mySnippets.map((snippet) => (
+        {mySnippets.map((snippet, index) => (
           <MenuListItem
+            key={index}
             displayText={`r/${snippet.communityId}`}
             link={`/r/${snippet.communityId}`}
             icon={FaReddit}
