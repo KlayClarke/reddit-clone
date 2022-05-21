@@ -6,6 +6,7 @@ import {
   limit,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -20,6 +21,7 @@ import PageContent from "../components/Layout/PageContent";
 import PostItem from "../components/Posts/PostItem";
 import PostLoader from "../components/Posts/PostLoader";
 import { auth, firestore } from "../firebase/clientApp";
+import useCommunityData from "../hooks/useCommunityData";
 import usePosts from "../hooks/usePosts";
 
 const Home: NextPage = () => {
@@ -32,8 +34,39 @@ const Home: NextPage = () => {
     onSelectPost,
     onDeletePost,
   } = usePosts();
-  const communityStateValue = useRecoilValue(communityState);
-  const buildUserHomeFeed = () => {};
+  const { communityStateValue } = useCommunityData();
+  const buildUserHomeFeed = async () => {
+    setLoading(true);
+    try {
+      if (communityStateValue.mySnippets.length) {
+        // if user is member of some communities
+        const myCommunityIds = communityStateValue.mySnippets.map(
+          (snippet) => snippet.communityId
+        );
+        const postQuery = query(
+          collection(firestore, "posts"),
+          orderBy("createdAt", "desc"),
+          where("communityId", "in", myCommunityIds),
+          limit(10)
+        );
+        const postDocuments = await getDocs(postQuery);
+        const posts = postDocuments.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPostStateValue((prev) => ({
+          ...prev,
+          posts: posts as Post[],
+        }));
+      } else {
+        // if user is member of no communities, render random posts using noUser function
+        buildNoUserHomeFeed();
+      }
+    } catch (error) {
+      console.log("buildUserHomeFeed error: ", error);
+    }
+    setLoading(false);
+  };
   const buildNoUserHomeFeed = async () => {
     setLoading(true);
     try {
@@ -57,6 +90,9 @@ const Home: NextPage = () => {
     setLoading(false);
   };
   const getUserPostVotes = () => {};
+  useEffect(() => {
+    if (communityStateValue.snippetsFetched) buildUserHomeFeed();
+  }, [communityStateValue.snippetsFetched]);
   useEffect(() => {
     if (!user && !loadingUser) buildNoUserHomeFeed();
   }, [user, loadingUser]);
