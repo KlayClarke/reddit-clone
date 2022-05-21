@@ -17,6 +17,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { communityState } from "../atoms/communitiesAtom";
 import { Post } from "../atoms/postsAtom";
 import CreatePostLink from "../components/Community/CreatePostLink";
+import PopularPosts from "../components/Community/PopularPosts";
 import PageContent from "../components/Layout/PageContent";
 import PostItem from "../components/Posts/PostItem";
 import PostLoader from "../components/Posts/PostLoader";
@@ -107,7 +108,7 @@ const Home: NextPage = () => {
   return (
     <PageContent>
       <>
-        <CreatePostLink />
+        <PopularPosts />
         {loading ? (
           <PostLoader />
         ) : (
