@@ -39,6 +39,7 @@ type PostItemProps = {
   onSelectPost?: (post: Post) => void;
   onDeletePost: (post: Post) => Promise<boolean>;
   homePage?: boolean;
+  imageURL?: string;
 };
 
 const PostItem: React.FC<PostItemProps> = ({
@@ -49,6 +50,7 @@ const PostItem: React.FC<PostItemProps> = ({
   onSelectPost,
   onDeletePost,
   homePage,
+  imageURL,
 }) => {
   const router = useRouter();
   const [loadingImage, setLoadingImage] = useState(true);
@@ -134,9 +136,9 @@ const PostItem: React.FC<PostItemProps> = ({
           >
             {homePage && (
               <>
-                {post.communityImageURL ? (
+                {imageURL ? (
                   <Image
-                    src={post.communityImageURL}
+                    src={imageURL}
                     borderRadius={"full"}
                     boxSize={"18px"}
                     mr={2}
