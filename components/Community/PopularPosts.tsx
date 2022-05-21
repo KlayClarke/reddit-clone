@@ -58,48 +58,51 @@ const PopularPosts: React.FC<PopularPostsProps> = () => {
             </Text>
             <Icon as={BsChevronDown} fontSize={14} color={"blue.700"} />
           </Flex>
-          <Flex
-            align={"center"}
-            mr={3}
-            _hover={{ bg: "gray.100", cursor: "pointer" }}
-            borderRadius={"full"}
-            p={"4px 8px"}
-          >
+          <Flex display={{ sm: "none", md: "flex" }} align={"center"}>
+            <Flex
+              align={"center"}
+              mr={3}
+              _hover={{ bg: "gray.100", cursor: "pointer" }}
+              borderRadius={"full"}
+              p={"4px 8px"}
+            >
+              <Icon
+                as={TiStarburstOutline}
+                fontSize={28}
+                color={"gray.300"}
+                mr={1}
+              />
+              <Text color={"gray.400"} fontWeight={700}>
+                New
+              </Text>
+            </Flex>
+            <Flex
+              align={"center"}
+              mr={3}
+              _hover={{ bg: "gray.100", cursor: "pointer" }}
+              borderRadius={"full"}
+              p={"4px 8px"}
+            >
+              <Icon
+                as={IoPodiumOutline}
+                fontSize={24}
+                color={"gray.300"}
+                mr={1}
+              />
+              <Text color={"gray.400"} fontWeight={700}>
+                Top
+              </Text>
+            </Flex>
             <Icon
-              as={TiStarburstOutline}
-              fontSize={28}
-              color={"gray.300"}
-              mr={1}
+              as={BsThreeDots}
+              fontSize={32}
+              color={"gray.400"}
+              _hover={{ bg: "gray.100", cursor: "pointer" }}
+              borderRadius={"full"}
+              p={"8px"}
+              display={{ lg: "none", xl: "flex" }}
             />
-            <Text color={"gray.400"} fontWeight={700}>
-              New
-            </Text>
           </Flex>
-          <Flex
-            align={"center"}
-            mr={3}
-            _hover={{ bg: "gray.100", cursor: "pointer" }}
-            borderRadius={"full"}
-            p={"4px 8px"}
-          >
-            <Icon
-              as={IoPodiumOutline}
-              fontSize={24}
-              color={"gray.300"}
-              mr={1}
-            />
-            <Text color={"gray.400"} fontWeight={700}>
-              Top
-            </Text>
-          </Flex>
-          <Icon
-            as={BsThreeDots}
-            fontSize={32}
-            color={"gray.400"}
-            _hover={{ bg: "gray.100", cursor: "pointer" }}
-            borderRadius={"full"}
-            p={"8px"}
-          />
         </Flex>
         <Flex
           align={"center"}
