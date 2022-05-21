@@ -35,7 +35,7 @@ const Home: NextPage = () => {
     onSelectPost,
     onDeletePost,
   } = usePosts();
-  const { communityStateValue } = useCommunityData();
+  const { communityStateValue, communities } = useCommunityData();
   const setCommunityStateValue = useSetRecoilState(communityState);
   const buildUserHomeFeed = async () => {
     setLoading(true);
@@ -127,6 +127,11 @@ const Home: NextPage = () => {
                 onSelectPost={onSelectPost}
                 onDeletePost={onDeletePost}
                 homePage
+                imageURL={
+                  communities.find(
+                    (community) => community.id === post.communityId
+                  )?.imageURL
+                }
               />
             ))}
           </Stack>
