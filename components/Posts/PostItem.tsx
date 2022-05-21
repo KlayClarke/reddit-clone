@@ -167,7 +167,7 @@ const PostItem: React.FC<PostItemProps> = ({
           <Text fontSize={"12pt"} fontWeight={600}>
             {post.title}
           </Text>
-          <Text fontSize={10}>{post.body}</Text>
+          {!homePage && <Text fontSize={10}>{post.body}</Text>}
           {post.imageURL && (
             <Flex justify={"center"} align={"center"} p={2}>
               {loadingImage && (
