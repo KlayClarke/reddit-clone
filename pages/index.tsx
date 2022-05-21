@@ -13,7 +13,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { communityState } from "../atoms/communitiesAtom";
 import { Post } from "../atoms/postsAtom";
 import CreatePostLink from "../components/Community/CreatePostLink";
@@ -35,6 +35,7 @@ const Home: NextPage = () => {
     onDeletePost,
   } = usePosts();
   const { communityStateValue } = useCommunityData();
+  const setCommunityStateValue = useSetRecoilState(communityState);
   const buildUserHomeFeed = async () => {
     setLoading(true);
     try {
@@ -90,6 +91,13 @@ const Home: NextPage = () => {
     setLoading(false);
   };
   const getUserPostVotes = () => {};
+  useEffect(() => {
+    // clear current community when user directs to home page
+    setCommunityStateValue((prev) => ({
+      ...prev,
+      currentCommunity: undefined,
+    }));
+  }, []);
   useEffect(() => {
     if (communityStateValue.snippetsFetched) buildUserHomeFeed();
   }, [communityStateValue.snippetsFetched]);
