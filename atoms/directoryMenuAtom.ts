@@ -5,7 +5,7 @@ import { atom } from "recoil";
 export type DirectoryMenuItem = {
   displayText: string;
   link: string;
-  icon: IconType;
+  icon?: IconType;
   iconColor: string;
   imageURL?: string;
 };
@@ -18,7 +18,6 @@ interface DirectoryMenuState {
 export const defaultMenuItem: DirectoryMenuItem = {
   displayText: "Home",
   link: "/",
-  icon: TiHome,
   iconColor: "black",
 };
 
