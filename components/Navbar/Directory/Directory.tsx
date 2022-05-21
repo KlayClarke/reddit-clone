@@ -21,7 +21,7 @@ const Directory: React.FC = () => {
   const [modalState, setModalState] = useRecoilState(AuthModalState);
   const { directoryState, toggleMenuOpen } = useDirectory();
   return (
-    <Menu isOpen={directoryState.isOpen}>
+    <Menu>
       <MenuButton
         cursor={"pointer"}
         padding={"0px 6px"}
