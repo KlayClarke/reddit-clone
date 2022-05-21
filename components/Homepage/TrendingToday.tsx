@@ -17,7 +17,7 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
           <Text fontSize={"10pt"} fontWeight={600} mb={4}>
             Trending today
           </Text>
-          <Flex gap={4}>
+          <Flex gap={4} maxHeight={"125px"}>
             {postStateValue.posts
               .filter((post) => post.imageURL)
               .reverse()
@@ -28,11 +28,12 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                     <Image
                       borderRadius="md"
                       src={post.imageURL}
-                      _hover={{ cursor: "pointer" }}
+                      _hover={{ cursor: "pointer", filter: "brightness(70%)" }}
                       onClick={() => onSelectPost(post)}
                       objectFit={"cover"}
                       height={"100%"}
                       filter={"brightness(75%)"}
+                      width={"100%"}
                     />
                   </Box>{" "}
                 </>
