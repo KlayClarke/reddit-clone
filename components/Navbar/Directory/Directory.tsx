@@ -41,12 +41,16 @@ const Directory: React.FC = () => {
                 mr={2}
               />
             ) : (
-              <Icon
-                as={directoryState.selectedMenuItem.icon}
-                color={directoryState.selectedMenuItem.iconColor}
-                fontSize={24}
-                mr={{ base: 1, md: 2 }}
-              />
+              <>
+                {directoryState.selectedMenuItem.icon && (
+                  <Icon
+                    as={directoryState.selectedMenuItem.icon}
+                    color={directoryState.selectedMenuItem.iconColor}
+                    fontSize={24}
+                    mr={{ base: 1, md: 2 }}
+                  />
+                )}
+              </>
             )}
             <Flex display={{ base: "none", md: "flex" }}>
               <Text fontWeight={600} fontSize={"10pt"}>
