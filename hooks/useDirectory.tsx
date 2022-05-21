@@ -7,6 +7,7 @@ import { communityState } from "../atoms/communitiesAtom";
 import {
   DirectoryMenuItem,
   directoryMenuState,
+  defaultMenuItem,
 } from "../atoms/directoryMenuAtom";
 import { auth } from "../firebase/clientApp";
 
@@ -47,10 +48,14 @@ const useDirectory = () => {
             user?.uid === currentCommunity.creatorId ? "brand.100" : "blue.500",
         },
       }));
+    } else {
+      setDirectoryState((prev) => ({
+        ...prev,
+        selectedMenuItem: defaultMenuItem,
+      }));
     }
   }, [communityStateValue.currentCommunity]);
 
   return { directoryState, toggleMenuOpen, onSelectMenuItem };
 };
 export default useDirectory;
-  
