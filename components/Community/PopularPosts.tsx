@@ -58,7 +58,7 @@ const PopularPosts: React.FC<PopularPostsProps> = () => {
             </Text>
             <Icon as={BsChevronDown} fontSize={14} color={"blue.700"} />
           </Flex>
-          <Flex display={{ sm: "none", md: "flex" }} align={"center"}>
+          <Flex display={{ base: "none", md: "flex" }} align={"center"}>
             <Flex
               align={"center"}
               mr={3}
