@@ -3,6 +3,7 @@ import {
   doc,
   getDocs,
   increment,
+  query,
   writeBatch,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -17,6 +18,7 @@ import {
 import { auth, firestore } from "../firebase/clientApp";
 
 const useCommunityData = () => {
+  const [communities, setCommunities] = useState<Community[]>([]);
   const [user] = useAuthState(auth);
   const [communityStateValue, setCommunityStateValue] =
     useRecoilState(communityState);
@@ -118,6 +120,24 @@ const useCommunityData = () => {
     }
     setLoading(false);
   };
+  const fetchCommunities = async () => {
+    setLoading(true);
+    try {
+      // create reference to "communities" collection in db
+      const communitiesReference = collection(firestore, "communities");
+      // query "communities" collection to compare to user's snippets
+      const communitiesQuery = query(communitiesReference);
+      const communityDocuments = await getDocs(communitiesQuery);
+      const communities = communityDocuments.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCommunities(communities as Community[]);
+    } catch (error) {
+      console.log("fetchCommunities error: ", error);
+    }
+    setLoading(false);
+  };
   useEffect(() => {
     if (!user) {
       setCommunityStateValue((prev) => ({
@@ -128,9 +148,11 @@ const useCommunityData = () => {
       return;
     }
     getSnippets();
+    fetchCommunities();
   }, [user]);
   return {
     communityStateValue,
+    communities,
     setCommunityStateValue,
     onJoinOrLeaveCommunity,
     loading,

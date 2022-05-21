@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { communityState } from "../../../atoms/communitiesAtom";
 import MenuListItem from "./MenuListItem";
 import { FaReddit } from "react-icons/fa";
+import useCommunityData from "../../../hooks/useCommunityData";
 
 type CommunitiesProps = {
   toggleMenuOpen: () => void;
@@ -14,6 +15,7 @@ type CommunitiesProps = {
 const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
   const [open, setOpen] = useState(false);
   const mySnippets = useRecoilValue(communityState).mySnippets;
+  const { communities } = useCommunityData();
   return (
     <>
       <CreateCommunityModal open={open} handleClose={() => setOpen(false)} />
@@ -36,7 +38,11 @@ const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
               link={`/r/${snippet.communityId}`}
               icon={FaReddit}
               iconColor={"brand.100"}
-              imageURL={snippet.imageURL}
+              imageURL={
+                communities.find(
+                  (community) => community.id === snippet.communityId
+                )?.imageURL
+              }
             />
           ))}
       </Box>
@@ -69,7 +75,11 @@ const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
             link={`/r/${snippet.communityId}`}
             icon={FaReddit}
             iconColor={"blue.500"}
-            imageURL={snippet.imageURL}
+            imageURL={
+              communities.find(
+                (community) => community.id === snippet.communityId
+              )?.imageURL
+            }
           />
         ))}
       </Box>
