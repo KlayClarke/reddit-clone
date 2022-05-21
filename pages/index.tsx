@@ -17,7 +17,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { communityState } from "../atoms/communitiesAtom";
 import { Post } from "../atoms/postsAtom";
 import CreatePostLink from "../components/Community/CreatePostLink";
-import PopularPosts from "../components/Community/PopularPosts";
+import PopularPosts from "../components/Homepage/PopularPosts";
+import TrendingToday from "../components/Homepage/TrendingToday";
 import PageContent from "../components/Layout/PageContent";
 import PostItem from "../components/Posts/PostItem";
 import PostLoader from "../components/Posts/PostLoader";
@@ -106,39 +107,42 @@ const Home: NextPage = () => {
     if (!user && !loadingUser) buildNoUserHomeFeed();
   }, [user, loadingUser]);
   return (
-    <PageContent>
-      <>
-        <PopularPosts />
-        {loading ? (
-          <PostLoader />
-        ) : (
-          <Stack>
-            {postStateValue.posts.map((post) => (
-              <PostItem
-                key={post.id}
-                post={post}
-                userIsCreator={post.creatorId === user?.uid}
-                userVoteValue={
-                  postStateValue.postVotes.find(
-                    (item) => item.postId === post.id
-                  )?.voteValue
-                }
-                onVote={onVote}
-                onSelectPost={onSelectPost}
-                onDeletePost={onDeletePost}
-                homePage
-                imageURL={
-                  communities.find(
-                    (community) => community.id === post.communityId
-                  )?.imageURL
-                }
-              />
-            ))}
-          </Stack>
-        )}
-      </>
-      <>{/* recommendations */}</>
-    </PageContent>
+    <>
+      <TrendingToday />
+      <PageContent>
+        <>
+          <PopularPosts />
+          {loading ? (
+            <PostLoader />
+          ) : (
+            <Stack>
+              {postStateValue.posts.map((post) => (
+                <PostItem
+                  key={post.id}
+                  post={post}
+                  userIsCreator={post.creatorId === user?.uid}
+                  userVoteValue={
+                    postStateValue.postVotes.find(
+                      (item) => item.postId === post.id
+                    )?.voteValue
+                  }
+                  onVote={onVote}
+                  onSelectPost={onSelectPost}
+                  onDeletePost={onDeletePost}
+                  homePage
+                  imageURL={
+                    communities.find(
+                      (community) => community.id === post.communityId
+                    )?.imageURL
+                  }
+                />
+              ))}
+            </Stack>
+          )}
+        </>
+        <>{/* recommendations */}</>
+      </PageContent>
+    </>
   );
 };
 
