@@ -22,9 +22,9 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
               .filter((post) => post.imageURL)
               .reverse()
               .slice(0, 3)
-              .map((post) => (
+              .map((post, index) => (
                 <>
-                  <Box maxW="300px" width={"100%"}>
+                  <Box maxW="300px" width={"100%"} key={index}>
                     <Image
                       borderRadius="md"
                       src={post.imageURL}
