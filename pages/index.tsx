@@ -105,11 +105,14 @@ const Home: NextPage = () => {
       communityStateValue.mySnippets.length >= 3
     )
       buildUserHomeFeed();
-  }, [communityStateValue.snippetsFetched]);
+  }, [
+    communityStateValue.snippetsFetched,
+    communityStateValue.mySnippets.length,
+  ]);
   useEffect(() => {
     if (!user || (communityStateValue.mySnippets.length < 3 && !loadingUser))
       buildNoUserHomeFeed();
-  }, [user, loadingUser]);
+  }, [user, loadingUser, communityStateValue.mySnippets.length]);
   return (
     <>
       <TrendingToday />
