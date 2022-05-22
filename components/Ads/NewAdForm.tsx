@@ -142,6 +142,7 @@ const NewAdPostForm: React.FC<NewAdPostFormProps> = ({
             handleCreateAdPost={handleCreateAdPost}
             loading={loading}
             onLinkChange={onLinkChange}
+            user={user}
           />
         )}
         {selectedTab === "Images & Video" && (
