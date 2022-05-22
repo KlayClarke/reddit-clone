@@ -99,16 +99,23 @@ const About: React.FC<AboutProps> = ({ communityData, postPage }) => {
         borderRadius={"0px 0px 4px 4px"}
       >
         <Stack>
-          <Flex align={"center"}>
-            <Image
-              src={communityData.imageURL}
-              borderRadius={"full"}
-              boxSize={"50px"}
-              alt={"community image"}
-              mr={2}
-            />
-            <Text fontWeight={700}>{`r/${communityData.id}`}</Text>
-          </Flex>
+          {postPage && (
+            <Link href={`/r/${communityData.id}`}>
+              <Flex align={"center"} _hover={{ cursor: "pointer" }}>
+                <Image
+                  src={communityData.imageURL}
+                  borderRadius={"full"}
+                  boxSize={"50px"}
+                  alt={"community image"}
+                  mr={2}
+                />
+                <Text
+                  fontWeight={700}
+                  _hover={{ cursor: "pointer", textDecoration: "underline" }}
+                >{`r/${communityData.id}`}</Text>
+              </Flex>
+            </Link>
+          )}
           <Flex width={"100%"} p={2} fontSize={"10pt"} fontWeight={700}>
             <Flex direction={"column"} flexGrow={1}>
               <Text>
