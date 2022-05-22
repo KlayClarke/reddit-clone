@@ -113,7 +113,7 @@ const NewAdPostForm: React.FC<NewAdPostFormProps> = ({
   const onLinkChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setAdLink(event.target.value);
+    if (event.target.value.includes("https://")) setAdLink(event.target.value);
   };
   return (
     <Flex
