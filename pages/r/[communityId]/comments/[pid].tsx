@@ -92,7 +92,10 @@ const PostPage: React.FC = () => {
       </>
       <>
         {communityStateValue.currentCommunity && (
-          <About communityData={communityStateValue.currentCommunity} />
+          <About
+            communityData={communityStateValue.currentCommunity}
+            postPage
+          />
         )}
       </>
     </PageContent>
