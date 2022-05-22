@@ -6,7 +6,7 @@ export type DirectoryMenuItem = {
   displayText: string;
   link: string;
   icon?: IconType;
-  iconColor: string;
+  iconColor?: string;
   imageURL?: string;
 };
 
@@ -18,7 +18,6 @@ interface DirectoryMenuState {
 export const defaultMenuItem: DirectoryMenuItem = {
   displayText: "r/popular",
   link: "/",
-  iconColor: "black",
 };
 
 export const defaultMenuState: DirectoryMenuState = {
