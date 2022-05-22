@@ -99,6 +99,16 @@ const About: React.FC<AboutProps> = ({ communityData, postPage }) => {
         borderRadius={"0px 0px 4px 4px"}
       >
         <Stack>
+          <Flex align={"center"}>
+            <Image
+              src={communityData.imageURL}
+              borderRadius={"full"}
+              boxSize={"50px"}
+              alt={"community image"}
+              mr={2}
+            />
+            <Text fontWeight={700}>{`r/${communityData.id}`}</Text>
+          </Flex>
           <Flex width={"100%"} p={2} fontSize={"10pt"} fontWeight={700}>
             <Flex direction={"column"} flexGrow={1}>
               <Text>
@@ -170,7 +180,7 @@ const About: React.FC<AboutProps> = ({ communityData, postPage }) => {
                       src={selectedFile || communityData.imageURL}
                       borderRadius={"full"}
                       boxSize={"40px"}
-                      alt={"community image"}
+                      alt={selectedFile ? "selected image" : "community image"}
                     />
                   ) : (
                     <Icon
