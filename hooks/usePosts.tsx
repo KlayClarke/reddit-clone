@@ -173,9 +173,9 @@ const usePosts = () => {
   };
 
   useEffect(() => {
-    if (!user || !currentCommunity) return; // if no user or current community, useless
+    if (!user) return; // if no user or current community, useless
     getPostVotes();
-  }, [user, currentCommunity]); // rerender on change of user or current community
+  }, [user]); // rerender on change of user or current community
 
   useEffect(() => {
     if (!user) {
