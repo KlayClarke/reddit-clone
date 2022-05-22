@@ -63,7 +63,7 @@ const AdTextInputs: React.FC<AdTextInputsProps> = ({
         <Button
           height={"34px"}
           padding={"0px 30px"}
-          disabled={!adTitle}
+          disabled={!adTitle || !user}
           isLoading={loading}
           onClick={handleCreateAdPost}
         >
