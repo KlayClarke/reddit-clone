@@ -23,8 +23,8 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
               .reverse()
               .slice(0, 3)
               .map((post, index) => (
-                <>
-                  <Box maxW="300px" width={"100%"} key={index}>
+                <React.Fragment key={index}>
+                  <Box maxW="300px" width={"100%"}>
                     <Image
                       borderRadius="md"
                       src={post.imageURL}
@@ -36,7 +36,7 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                       width={"100%"}
                     />
                   </Box>{" "}
-                </>
+                </React.Fragment>
               ))}
           </Flex>
         </Stack>
