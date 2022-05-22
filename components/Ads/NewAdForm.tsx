@@ -32,6 +32,8 @@ type NewAdPostFormProps = {
   user?: User;
   adTitle: string;
   setAdTitle: Dispatch<SetStateAction<string>>;
+  adLink: string;
+  setAdLink: Dispatch<SetStateAction<string>>;
   selectedFile: string | undefined;
   setSelectedFile: Dispatch<SetStateAction<string | undefined>>;
   selectedTab: string;
@@ -49,6 +51,8 @@ const NewAdPostForm: React.FC<NewAdPostFormProps> = ({
   user,
   adTitle,
   setAdTitle,
+  adLink,
+  setAdLink,
   selectedFile,
   setSelectedFile,
   selectedTab,
@@ -65,6 +69,7 @@ const NewAdPostForm: React.FC<NewAdPostFormProps> = ({
       creatorId: user!.uid,
       creatorDisplayName: user!.email!.split("@")[0],
       title: adTitle,
+      link: adLink,
       numberOfComments: 0,
       voteStatus: 0,
       createdAt: serverTimestamp() as Timestamp,
@@ -100,10 +105,15 @@ const NewAdPostForm: React.FC<NewAdPostFormProps> = ({
     setLoading(false);
   };
 
-  const onTextChange = (
+  const onTitleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setAdTitle(event.target.value);
+  };
+  const onLinkChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setAdLink(event.target.value);
   };
   return (
     <Flex
@@ -127,9 +137,11 @@ const NewAdPostForm: React.FC<NewAdPostFormProps> = ({
         {selectedTab === "Post" && (
           <AdTextInputs
             adTitle={adTitle}
-            onChange={onTextChange}
+            adLink={adLink}
+            onTitleChange={onTitleChange}
             handleCreateAdPost={handleCreateAdPost}
             loading={loading}
+            onLinkChange={onLinkChange}
           />
         )}
         {selectedTab === "Images & Video" && (

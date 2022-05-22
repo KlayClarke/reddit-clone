@@ -30,6 +30,7 @@ const ad: React.FC<adProps> = () => {
   const [selectedTab, setSelectedTab] = useState(formTabs[0].title);
   const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
   const [adTitle, setAdTitle] = useState("");
+  const [adLink, setAdLink] = useState("");
   return (
     <PageContent>
       <>
@@ -37,6 +38,8 @@ const ad: React.FC<adProps> = () => {
           user={user!}
           adTitle={adTitle}
           setAdTitle={setAdTitle}
+          adLink={adLink}
+          setAdLink={setAdLink}
           selectedFile={selectedFile}
           setSelectedFile={setSelectedFile}
           formTabs={formTabs}

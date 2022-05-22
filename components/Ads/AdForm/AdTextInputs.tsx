@@ -6,7 +6,11 @@ import { auth } from "../../../firebase/clientApp";
 
 type AdTextInputsProps = {
   adTitle: string;
-  onChange: (
+  adLink: string;
+  onTitleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
+  onLinkChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   handleCreateAdPost: () => void;
@@ -16,7 +20,9 @@ type AdTextInputsProps = {
 
 const AdTextInputs: React.FC<AdTextInputsProps> = ({
   adTitle,
-  onChange,
+  adLink,
+  onTitleChange,
+  onLinkChange,
   handleCreateAdPost,
   loading,
   user,
@@ -36,7 +42,22 @@ const AdTextInputs: React.FC<AdTextInputsProps> = ({
           borderColor: "black",
         }}
         value={adTitle}
-        onChange={onChange}
+        onChange={onTitleChange}
+      />
+      <Input
+        name="link"
+        fontSize={"10pt"}
+        borderRadius={4}
+        placeholder={"Link"}
+        _placeholder={{ color: "gray.500" }}
+        _focus={{
+          outline: "none",
+          bg: "white",
+          border: "1px solid",
+          borderColor: "black",
+        }}
+        value={adLink}
+        onChange={onLinkChange}
       />
       <Flex justify={"flex-end"}>
         <Button

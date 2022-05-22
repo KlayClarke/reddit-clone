@@ -55,7 +55,6 @@ const AdPreview: React.FC<AdPreviewProps> = ({ adTitle, selectedFile }) => {
         borderColor: "gray.500",
       }}
       cursor={"pointer"}
-      height={"100%"}
       maxWidth={"500px"}
     >
       <Flex
@@ -117,17 +116,19 @@ const AdPreview: React.FC<AdPreviewProps> = ({ adTitle, selectedFile }) => {
             {adTitle}
           </Text>
           <Flex justify={"center"} align={"center"}>
-            {loadingImage && (
+            {(!selectedFile || loadingImage) && (
               <Skeleton height={"200px"} width={"100%"} borderRadius={4} />
             )}
-            <Image
-              maxHeight={"460px"}
-              alt="Post image"
-              onLoad={() => setLoadingImage(false)}
-              display={loadingImage ? "none" : "unset"}
-              maxWidth={"80%"}
-              src={selectedFile}
-            />
+            {selectedFile && (
+              <Image
+                maxHeight={"460px"}
+                alt="Post image"
+                onLoad={() => setLoadingImage(false)}
+                display={loadingImage ? "none" : "unset"}
+                maxWidth={"80%"}
+                src={selectedFile}
+              />
+            )}
           </Flex>
         </Stack>
         <Flex ml={1} mb={0.5} color={"gray.500"} fontWeight={800}>
