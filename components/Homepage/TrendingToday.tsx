@@ -40,7 +40,11 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                       position={"relative"}
                       zIndex={1}
                     />
-                    <Flex display={{ base: "none", md: "initial" }}>
+                    <Flex
+                      display={{ base: "none", md: "initial" }}
+                      _hover={{ cursor: "pointer" }}
+                      onClick={() => onSelectPost(post)}
+                    >
                       <Stack
                         position={"absolute"}
                         top={"195px"}
@@ -56,8 +60,7 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                           {post.title}
                         </Text>
                         <Flex align={"center"}>
-                          {communities.find((x) => x.id === post.communityId)
-                            ?.imageURL ? (
+                          {communities ? (
                             <Image
                               src={
                                 communities.find(
