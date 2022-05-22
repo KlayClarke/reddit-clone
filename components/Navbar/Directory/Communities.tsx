@@ -29,7 +29,14 @@ const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
         >
           MODERATING
         </Text>
-        {mySnippets
+        {[...mySnippets]
+          .sort((a, b) => {
+            return a.communityId.toLowerCase() < b.communityId.toLowerCase()
+              ? -1
+              : b.communityId.toLowerCase() < a.communityId.toLowerCase()
+              ? 1
+              : 0;
+          })
           .filter((snippet) => snippet.isModerator)
           .map((snippet, index) => (
             <MenuListItem
@@ -68,20 +75,28 @@ const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
             <Flex>Create Community</Flex>
           </Flex>
         </MenuItem>
-        {mySnippets.map((snippet, index) => (
-          <MenuListItem
-            key={index}
-            displayText={`r/${snippet.communityId}`}
-            link={`/r/${snippet.communityId}`}
-            icon={FaReddit}
-            iconColor={"blue.500"}
-            imageURL={
-              communities.find(
-                (community) => community.id === snippet.communityId
-              )?.imageURL
-            }
-          />
-        ))}
+        {[...mySnippets]
+          .sort((a, b) => {
+            return a.communityId.toLowerCase() < b.communityId.toLowerCase()
+              ? -1
+              : b.communityId.toLowerCase() < a.communityId.toLowerCase()
+              ? 1
+              : 0;
+          })
+          .map((snippet, index) => (
+            <MenuListItem
+              key={index}
+              displayText={`r/${snippet.communityId}`}
+              link={`/r/${snippet.communityId}`}
+              icon={FaReddit}
+              iconColor={"blue.500"}
+              imageURL={
+                communities.find(
+                  (community) => community.id === snippet.communityId
+                )?.imageURL
+              }
+            />
+          ))}
       </Box>
     </>
   );
