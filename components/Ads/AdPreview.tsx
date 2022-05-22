@@ -107,7 +107,12 @@ const AdPreview: React.FC<AdPreviewProps> = ({ adTitle }) => {
               <Text>Posted by u/{user?.email?.split("@")[0]} </Text>
             </Flex>
           </Stack>
-          <Text fontSize={"12pt"} fontWeight={600} maxWidth={"100%"}>
+          <Text
+            fontSize={"12pt"}
+            fontWeight={600}
+            maxWidth={"100%"}
+            isTruncated={true}
+          >
             {adTitle}
           </Text>
           <Flex justify={"center"} align={"center"}>
