@@ -20,6 +20,7 @@ const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
     <>
       <CreateCommunityModal open={open} handleClose={() => setOpen(false)} />
       <Box mt={3} mb={4}>
+        <MenuListItem displayText={`r/popular`} link={`/`} />
         <Text
           pl={3}
           mb={1}
