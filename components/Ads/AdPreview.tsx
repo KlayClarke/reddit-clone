@@ -35,9 +35,10 @@ import useCommunityData from "../../hooks/useCommunityData";
 
 type AdPreviewProps = {
   adTitle: string;
+  selectedFile?: string;
 };
 
-const AdPreview: React.FC<AdPreviewProps> = ({ adTitle }) => {
+const AdPreview: React.FC<AdPreviewProps> = ({ adTitle, selectedFile }) => {
   const [loadingImage, setLoadingImage] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [error, setError] = useState(false);
@@ -125,6 +126,7 @@ const AdPreview: React.FC<AdPreviewProps> = ({ adTitle }) => {
               onLoad={() => setLoadingImage(false)}
               display={loadingImage ? "none" : "unset"}
               maxWidth={"80%"}
+              src={selectedFile}
             />
           </Flex>
         </Stack>
