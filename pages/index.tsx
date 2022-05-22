@@ -16,6 +16,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { communityState } from "../atoms/communitiesAtom";
 import { Post } from "../atoms/postsAtom";
+import AdItem from "../components/Ads/AdItem";
 import CreatePostLink from "../components/Community/CreatePostLink";
 import PopularPosts from "../components/Homepage/PopularPosts";
 import TrendingToday from "../components/Homepage/TrendingToday";
@@ -28,6 +29,8 @@ import usePosts from "../hooks/usePosts";
 
 const Home: NextPage = () => {
   const [loading, setLoading] = useState(false);
+  const [adLoading, setAdLoading] = useState(true);
+  const [adPost, setAdPost] = useState<Post>();
   const [user, loadingUser] = useAuthState(auth);
   const {
     postStateValue,
@@ -92,12 +95,36 @@ const Home: NextPage = () => {
     }
     setLoading(false);
   };
+  const fetchAd = async () => {
+    try {
+      const adQuery = query(
+        collection(firestore, "adposts"),
+        where(
+          "creatorId",
+          "==",
+          process.env.NEXT_PUBLIC_FIREBASE_ADMIN_CREATOR_ID
+        ),
+        orderBy("createdAt", "desc")
+      );
+      const adDocuments = await getDocs(adQuery);
+      const ads = adDocuments.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAdPost(ads[0] as Post);
+      setAdLoading(false);
+    } catch (error) {
+      console.log("fetchAd error: ", error);
+    }
+  };
   useEffect(() => {
     // clear current community when user directs to home page
     setCommunityStateValue((prev) => ({
       ...prev,
       currentCommunity: undefined,
     }));
+    // fetch ad post to display above PostItems
+    fetchAd();
   }, []);
   useEffect(() => {
     if (
@@ -108,11 +135,13 @@ const Home: NextPage = () => {
   }, [
     communityStateValue.snippetsFetched,
     communityStateValue.mySnippets.length,
+    adPost,
   ]);
   useEffect(() => {
     if (!user || (communityStateValue.mySnippets.length < 3 && !loadingUser))
       buildNoUserHomeFeed();
-  }, [user, loadingUser, communityStateValue.mySnippets.length]);
+  }, [user, loadingUser, communityStateValue.mySnippets.length, adPost]);
+
   return (
     <>
       <TrendingToday />
@@ -123,6 +152,13 @@ const Home: NextPage = () => {
             <PostLoader />
           ) : (
             <Stack>
+              {!adLoading && adPost && (
+                <AdItem
+                  adTitle={adPost.title}
+                  adLink={adPost.link}
+                  imageURL={adPost.imageURL}
+                />
+              )}
               {postStateValue.posts.map((post) => (
                 <PostItem
                   key={post.id}
