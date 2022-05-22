@@ -11,9 +11,10 @@ import PostLoader from "./PostLoader";
 
 type PostsProps = {
   communityData: Community;
+  homePage?: boolean;
 };
 
-const Posts: React.FC<PostsProps> = ({ communityData }) => {
+const Posts: React.FC<PostsProps> = ({ communityData, homePage }) => {
   const [user] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
   const {
@@ -69,6 +70,7 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
               onVote={onVote}
               onSelectPost={() => onSelectPost(item)}
               onDeletePost={onDeletePost}
+              homePage
             />
           ))}
         </Stack>
