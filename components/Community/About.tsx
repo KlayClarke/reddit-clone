@@ -14,7 +14,7 @@ import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaReddit } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
@@ -22,20 +22,30 @@ import { RiCakeLine } from "react-icons/ri";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { Community, communityState } from "../../atoms/communitiesAtom";
 import { auth, firestore, storage } from "../../firebase/clientApp";
+import useCommunityData from "../../hooks/useCommunityData";
 import useSelectFile from "../../hooks/useSelectFile";
 
 type AboutProps = {
   communityData: Community;
+  postPage?: boolean;
 };
 
-const About: React.FC<AboutProps> = ({ communityData }) => {
+const About: React.FC<AboutProps> = ({ communityData, postPage }) => {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const selectedFileRef = useRef<HTMLInputElement>(null);
   const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
   const [uploadingImage, setUploadingImage] = useState<boolean>(false);
   const setCommunityStateValue = useSetRecoilState(communityState);
+  const communityStateValue = useRecoilValue(communityState);
   const mySnippets = useRecoilValue(communityState).mySnippets;
+  const [isJoined, setIsJoined] = useState<boolean>(false);
+  const checkIfJoined = () => {
+    return !!communityStateValue.mySnippets.find(
+      (item) => item.communityId === communityData.id
+    );
+  };
+  const { loading, onJoinOrLeaveCommunity } = useCommunityData();
   const onUpdateImage = async () => {
     if (!selectedFile) return; // if there is no file to upload, exit function
     setUploadingImage(true);
@@ -60,6 +70,9 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
     setSelectedFile("");
     setUploadingImage(false);
   };
+  useEffect(() => {
+    setIsJoined(checkIfJoined());
+  }, [communityStateValue.mySnippets]);
   return (
     <Box position={"sticky"} top={"14px"}>
       <Flex
@@ -67,13 +80,17 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
         align={"center"}
         bg={"blue.400"}
         color={"white"}
-        p={3}
+        p={!postPage ? 3 : 5}
         borderRadius={"4px 4px 0px 0px"}
       >
-        <Text fontSize={"10pt"} fontWeight={700}>
-          About Community
-        </Text>
-        <Icon as={HiOutlineDotsHorizontal} />
+        {!postPage && (
+          <>
+            <Text fontSize={"10pt"} fontWeight={700}>
+              About Community
+            </Text>
+            <Icon as={HiOutlineDotsHorizontal} />
+          </>
+        )}
       </Flex>
       <Flex
         direction={"column"}
@@ -110,16 +127,25 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
               </Text>
             )}
           </Flex>
-          {user &&
-            mySnippets.filter(
-              (snippet) => snippet.communityId === communityData.id
-            ) && (
-              <Link href={`/r/${communityData.id}/submit`}>
-                <Button mt={3} height={"30px"}>
-                  Create Post
-                </Button>
-              </Link>
-            )}
+          <Button
+            variant={isJoined ? "outline" : "solid"}
+            height="30px"
+            pr={6}
+            pl={6}
+            onClick={() => {
+              onJoinOrLeaveCommunity(communityData, isJoined);
+            }}
+            isLoading={loading}
+          >
+            {isJoined ? "Joined" : "Join"}
+          </Button>
+          {user && isJoined && (
+            <Link href={`/r/${communityData.id}/submit`}>
+              <Button mt={3} height={"30px"}>
+                Create Post
+              </Button>
+            </Link>
+          )}
           {user?.uid === communityData.creatorId && (
             <>
               <Divider />
