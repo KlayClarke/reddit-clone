@@ -15,7 +15,7 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
 
   return (
     <Flex justify={"center"} p={"16px 0px 4px 0px"}>
-      <Flex width={"95%"} maxWidth={"860px"}>
+      <Flex width={"95%"} maxWidth={"1000px"}>
         <Stack>
           <Text fontSize={"10pt"} fontWeight={600} mb={1}>
             Trending today
@@ -27,7 +27,7 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
               .slice(0, 3)
               .map((post, index) => (
                 <React.Fragment key={index}>
-                  <Box maxW="300px" width={"100%"}>
+                  <Box maxW="333px" width={"100%"}>
                     <Image
                       borderRadius="md"
                       src={post.imageURL}

@@ -18,7 +18,7 @@ const PopularPosts: React.FC<PopularPostsProps> = () => {
         justify={"space-between"}
         align={"center"}
         bg={"white"}
-        height={"55px"}
+        height={"60px"}
         borderRadius={4}
         border={"1px solid"}
         borderColor={"gray.300"}
