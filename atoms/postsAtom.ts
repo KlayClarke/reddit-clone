@@ -8,6 +8,7 @@ export type Post = {
   creatorDisplayName: string;
   title: string;
   body?: string;
+  link?: string;
   numberOfComments: number;
   voteStatus: number;
   imageURL?: string;
