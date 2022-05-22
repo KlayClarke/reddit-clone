@@ -60,7 +60,8 @@ const AdPreview: React.FC<AdPreviewProps> = ({
       bg="white"
       borderColor={"gray.300"}
       borderRadius={"4px"}
-      maxWidth={"500px"}
+      maxWidth={!notPreview ? "500px" : ""}
+      width={"100%"}
     >
       <Flex
         direction={"column"}
