@@ -45,7 +45,7 @@ const About: React.FC<AboutProps> = ({ communityData, postPage }) => {
       (item) => item.communityId === communityData.id
     );
   };
-  const { loading, onJoinOrLeaveCommunity } = useCommunityData();
+  const { loading, onJoinOrLeaveCommunity, communities } = useCommunityData();
   const onUpdateImage = async () => {
     if (!selectedFile) return; // if there is no file to upload, exit function
     setUploadingImage(true);
@@ -101,7 +101,12 @@ const About: React.FC<AboutProps> = ({ communityData, postPage }) => {
         <Stack>
           <Flex width={"100%"} p={2} fontSize={"10pt"} fontWeight={700}>
             <Flex direction={"column"} flexGrow={1}>
-              <Text>{communityData.numberOfMembers.toLocaleString()}</Text>
+              <Text>
+                {communities &&
+                  communities
+                    .find((x) => x.id === communityData.id)
+                    ?.numberOfMembers.toLocaleString()}
+              </Text>
               <Text>Members</Text>
             </Flex>
             <Flex direction={"column"} flexGrow={1}>
