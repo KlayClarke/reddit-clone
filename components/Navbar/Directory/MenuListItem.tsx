@@ -7,8 +7,8 @@ import useDirectory from "../../../hooks/useDirectory";
 type MenuListItemProps = {
   displayText: string;
   link: string;
-  icon: IconType;
-  iconColor: string;
+  icon?: IconType;
+  iconColor?: string;
   imageURL?: string;
 };
 
