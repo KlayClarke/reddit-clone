@@ -30,13 +30,11 @@ const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
           MODERATING
         </Text>
         {[...mySnippets]
-          .sort((a, b) => {
-            return a.communityId.toLowerCase() < b.communityId.toLowerCase()
-              ? -1
-              : b.communityId.toLowerCase() < a.communityId.toLowerCase()
-              ? 1
-              : 0;
-          })
+          .sort((a, b) =>
+            a.communityId
+              .toLowerCase()
+              .localeCompare(b.communityId.toLowerCase())
+          )
           .filter((snippet) => snippet.isModerator)
           .map((snippet, index) => (
             <MenuListItem
@@ -76,13 +74,11 @@ const Communities: React.FC<CommunitiesProps> = ({ toggleMenuOpen }) => {
           </Flex>
         </MenuItem>
         {[...mySnippets]
-          .sort((a, b) => {
-            return a.communityId.toLowerCase() < b.communityId.toLowerCase()
-              ? -1
-              : b.communityId.toLowerCase() < a.communityId.toLowerCase()
-              ? 1
-              : 0;
-          })
+          .sort((a, b) =>
+            a.communityId
+              .toLowerCase()
+              .localeCompare(b.communityId.toLowerCase())
+          )
           .map((snippet, index) => (
             <MenuListItem
               key={index}
