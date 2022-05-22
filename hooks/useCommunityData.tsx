@@ -87,6 +87,13 @@ const useCommunityData = () => {
         ...prev,
         mySnippets: [...prev.mySnippets, newSnippet],
       }));
+      // add user to number of members in community state (temporary --> but will allow us to render numberOfMembers change in real time)
+      const communityIndex = communities.indexOf(
+        communities.find((x) => x.id === communityData.id) as Community
+      );
+      let newCommunities = communities;
+      newCommunities[communityIndex].numberOfMembers += 1;
+      setCommunities(newCommunities);
     } catch (error: any) {
       console.log("join community error:", error);
       setError(error.message);
@@ -114,6 +121,13 @@ const useCommunityData = () => {
           (item) => item.communityId !== communityId
         ),
       }));
+      // subtract user from number of members in community state (temporary --> but will allow us to render numberOfMembers change in real time)
+      const communityIndex = communities.indexOf(
+        communities.find((x) => x.id === communityId) as Community
+      );
+      let newCommunities = communities;
+      newCommunities[communityIndex].numberOfMembers -= 1;
+      setCommunities(newCommunities);
     } catch (error: any) {
       console.log("leave community error: ", error);
       setError(error.message);
