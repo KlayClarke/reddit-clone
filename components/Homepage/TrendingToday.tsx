@@ -34,7 +34,21 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                       height={"100%"}
                       filter={"brightness(75%)"}
                       width={"100%"}
+                      position={"relative"}
+                      zIndex={1}
                     />
+                    <Flex display={{ base: "none", md: "initial" }}>
+                      <Text
+                        position={"absolute"}
+                        zIndex={10}
+                        color={"white"}
+                        top={"210px"}
+                        maxWidth={"225px"}
+                        noOfLines={1}
+                      >
+                        {post.title}
+                      </Text>
+                    </Flex>
                   </Box>{" "}
                 </React.Fragment>
               ))}
