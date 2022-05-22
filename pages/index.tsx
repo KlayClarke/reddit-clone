@@ -92,7 +92,6 @@ const Home: NextPage = () => {
     }
     setLoading(false);
   };
-  const getUserPostVotes = () => {};
   useEffect(() => {
     // clear current community when user directs to home page
     setCommunityStateValue((prev) => ({
