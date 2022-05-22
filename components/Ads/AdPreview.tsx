@@ -55,6 +55,7 @@ const AdPreview: React.FC<AdPreviewProps> = ({ adTitle }) => {
       }}
       cursor={"pointer"}
       height={"100%"}
+      maxWidth={"500px"}
     >
       <Flex
         direction={"column"}
@@ -80,14 +81,14 @@ const AdPreview: React.FC<AdPreviewProps> = ({ adTitle }) => {
           _hover={{ bg: "gray.200", borderRadius: "sm", color: "#4379ff" }}
         />
       </Flex>
-      <Flex direction={"column"} width={"100%"}>
+      <Flex direction={"column"} maxWidth={"450px"}>
         {error && (
           <Alert status="error">
             <AlertIcon />
             <Text>{error}</Text>
           </Alert>
         )}
-        <Stack spacing={1} p={"10px"}>
+        <Stack spacing={1} p={"10px"} maxWidth={"500px"}>
           <Stack
             direction={"row"}
             spacing={0.6}
@@ -106,7 +107,7 @@ const AdPreview: React.FC<AdPreviewProps> = ({ adTitle }) => {
               <Text>Posted by u/{user?.email?.split("@")[0]} </Text>
             </Flex>
           </Stack>
-          <Text fontSize={"12pt"} fontWeight={600}>
+          <Text fontSize={"12pt"} fontWeight={600} maxWidth={"100%"}>
             {adTitle}
           </Text>
           <Flex justify={"center"} align={"center"}>
@@ -118,6 +119,7 @@ const AdPreview: React.FC<AdPreviewProps> = ({ adTitle }) => {
               alt="Post image"
               onLoad={() => setLoadingImage(false)}
               display={loadingImage ? "none" : "unset"}
+              maxWidth={"80%"}
             />
           </Flex>
         </Stack>
