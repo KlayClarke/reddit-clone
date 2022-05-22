@@ -157,10 +157,9 @@ const usePosts = () => {
       return false;
     }
   };
-  const getCommunityPostVotes = async (communityId: string) => {
+  const getPostVotes = async () => {
     const postVotesQuery = query(
-      collection(firestore, "users", `${user?.uid}/postVotes`),
-      where("communityId", "==", communityId)
+      collection(firestore, "users", `${user?.uid}/postVotes`)
     );
     const postVoteDocuments = await getDocs(postVotesQuery);
     const postVotes = postVoteDocuments.docs.map((doc) => ({
@@ -175,7 +174,7 @@ const usePosts = () => {
 
   useEffect(() => {
     if (!user || !currentCommunity) return; // if no user or current community, useless
-    getCommunityPostVotes(currentCommunity?.id);
+    getPostVotes();
   }, [user, currentCommunity]); // rerender on change of user or current community
 
   useEffect(() => {
