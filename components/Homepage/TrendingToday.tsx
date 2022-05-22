@@ -1,7 +1,9 @@
-import { Box, Flex, Text, Image, Stack } from "@chakra-ui/react";
+import { Box, Flex, Text, Image, Stack, Icon } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import { FaReddit } from "react-icons/fa";
 import { Post } from "../../atoms/postsAtom";
+import useCommunityData from "../../hooks/useCommunityData";
 import usePosts from "../../hooks/usePosts";
 
 type TrendingTodayProps = {};
@@ -9,6 +11,7 @@ type TrendingTodayProps = {};
 const TrendingToday: React.FC<TrendingTodayProps> = () => {
   const router = useRouter();
   const { postStateValue, onSelectPost } = usePosts();
+  const { communities } = useCommunityData();
 
   return (
     <Flex justify={"center"} p={"16px 0px 4px 0px"}>
@@ -28,26 +31,59 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                     <Image
                       borderRadius="md"
                       src={post.imageURL}
-                      _hover={{ cursor: "pointer", filter: "brightness(70%)" }}
+                      _hover={{ cursor: "pointer", filter: "brightness(60%)" }}
                       onClick={() => onSelectPost(post)}
                       objectFit={"cover"}
                       height={"100%"}
-                      filter={"brightness(75%)"}
+                      filter={"brightness(65%)"}
                       width={"100%"}
                       position={"relative"}
                       zIndex={1}
                     />
                     <Flex display={{ base: "none", md: "initial" }}>
-                      <Text
+                      <Stack
                         position={"absolute"}
+                        top={"195px"}
                         zIndex={10}
-                        color={"white"}
-                        top={"210px"}
-                        maxWidth={"225px"}
-                        noOfLines={1}
+                        p={"5px 10px"}
                       >
-                        {post.title}
-                      </Text>
+                        <Text
+                          color={"white"}
+                          maxWidth={"225px"}
+                          fontWeight={700}
+                          noOfLines={1}
+                        >
+                          {post.title}
+                        </Text>
+                        <Flex align={"center"}>
+                          {communities.find((x) => x.id === post.communityId)
+                            ?.imageURL ? (
+                            <Image
+                              src={
+                                communities.find(
+                                  (x) => x.id === post.communityId
+                                )?.imageURL
+                              }
+                              borderRadius={"full"}
+                              boxSize={"18px"}
+                              mr={2}
+                            />
+                          ) : (
+                            <Icon
+                              as={FaReddit}
+                              fontSize={"18pt"}
+                              mr={1}
+                              color={"blue.500"}
+                            />
+                          )}
+                          <Text
+                            color={"white"}
+                            maxWidth={"225px"}
+                            noOfLines={1}
+                            fontSize={"xs"}
+                          >{`r/${post.communityId} and more`}</Text>
+                        </Flex>
+                      </Stack>
                     </Flex>
                   </Box>{" "}
                 </React.Fragment>
