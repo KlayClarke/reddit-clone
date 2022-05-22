@@ -110,12 +110,7 @@ const AdPreview: React.FC<AdPreviewProps> = ({
               </>
             </Flex>
           </Stack>
-          <Text
-            fontSize={"12pt"}
-            fontWeight={600}
-            maxWidth={"100%"}
-            isTruncated={true}
-          >
+          <Text fontSize={"12pt"} fontWeight={600} maxWidth={"100%"}>
             {adTitle}
           </Text>
           {adLink && adLink.length > 8 && (
