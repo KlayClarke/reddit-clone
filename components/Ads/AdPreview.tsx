@@ -34,15 +34,19 @@ import { auth } from "../../firebase/clientApp";
 import useCommunityData from "../../hooks/useCommunityData";
 
 type AdPreviewProps = {
+  notPreview?: boolean;
   adTitle: string;
-  adLink: string;
+  adLink?: string;
   selectedFile?: string;
+  imageURL?: string;
 };
 
 const AdPreview: React.FC<AdPreviewProps> = ({
   adTitle,
   adLink,
+  imageURL,
   selectedFile,
+  notPreview,
 }) => {
   const [loadingImage, setLoadingImage] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -134,72 +138,19 @@ const AdPreview: React.FC<AdPreviewProps> = ({
             {(!selectedFile || loadingImage) && (
               <Skeleton height={"200px"} width={"100%"} borderRadius={4} />
             )}
-            {selectedFile && (
-              <Image
-                maxHeight={"460px"}
-                alt="Post image"
-                onLoad={() => setLoadingImage(false)}
-                display={loadingImage ? "none" : "unset"}
-                maxWidth={"80%"}
-                src={selectedFile}
-              />
-            )}
+            {selectedFile ||
+              (imageURL && (
+                <Image
+                  maxHeight={"460px"}
+                  alt="Post image"
+                  onLoad={() => setLoadingImage(false)}
+                  display={loadingImage ? "none" : "unset"}
+                  maxWidth={"80%"}
+                  src={selectedFile ? selectedFile : imageURL}
+                />
+              ))}
           </Flex>
         </Stack>
-        {(adTitle || adLink || selectedFile) && (
-          <Flex ml={1} mb={0.5} color={"gray.500"} fontWeight={800}>
-            <Flex
-              align={"center"}
-              p={"8px 10px"}
-              borderRadius={4}
-              _hover={{ bg: "gray.200" }}
-              cursor={"pointer"}
-            >
-              <Icon as={BsChat} mr={2} />
-              <Text fontSize={"9pt"} display={{ base: "none", sm: "unset" }}>
-                0 Comments
-              </Text>
-            </Flex>
-            <Flex
-              align={"center"}
-              p={"8px 10px"}
-              borderRadius={4}
-              _hover={{ bg: "gray.200" }}
-              cursor={"pointer"}
-            >
-              <Icon as={IoArrowRedoOutline} mr={2} />
-              <Text fontSize={"9pt"} display={{ base: "none", sm: "unset" }}>
-                Share
-              </Text>
-            </Flex>
-            <Flex
-              align={"center"}
-              p={"8px 10px"}
-              borderRadius={4}
-              _hover={{ bg: "gray.200" }}
-              cursor={"pointer"}
-            >
-              <Icon as={IoBookmarkOutline} mr={2} />
-              <Text fontSize={"9pt"} display={{ base: "none", sm: "unset" }}>
-                Save
-              </Text>
-            </Flex>
-            <Flex
-              align={"center"}
-              p={"8px 10px"}
-              borderRadius={4}
-              _hover={{ bg: "gray.200" }}
-              cursor={"pointer"}
-            >
-              <>
-                <Icon as={AiOutlineDelete} mr={2} />
-                <Text fontSize={"9pt"} display={{ base: "none", sm: "unset" }}>
-                  Delete
-                </Text>
-              </>
-            </Flex>
-          </Flex>
-        )}
       </Flex>
     </Flex>
   );
