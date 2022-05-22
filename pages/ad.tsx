@@ -34,6 +34,13 @@ const ad: React.FC<adProps> = () => {
   return (
     <PageContent>
       <>
+        <AdPreview
+          adTitle={adTitle}
+          adLink={adLink}
+          selectedFile={selectedFile}
+        />
+      </>
+      <>
         <NewAdPostForm
           user={user!}
           adTitle={adTitle}
@@ -46,13 +53,6 @@ const ad: React.FC<adProps> = () => {
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
           onSelectFile={onSelectFile}
-        />
-      </>
-      <>
-        <AdPreview
-          adTitle={adTitle}
-          adLink={adLink}
-          selectedFile={selectedFile}
         />
       </>
     </PageContent>
