@@ -2,6 +2,7 @@ import {
   Alert,
   AlertIcon,
   Box,
+  Button,
   Flex,
   Icon,
   Image,
@@ -26,6 +27,10 @@ import { Post } from "../../atoms/postsAtom";
 import { useRouter } from "next/router";
 import { FaReddit } from "react-icons/fa";
 import Link from "next/link";
+import useCommunityData from "../../hooks/useCommunityData";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/clientApp";
+import { Community } from "../../atoms/communitiesAtom";
 
 type PostItemProps = {
   post: Post;
@@ -53,9 +58,12 @@ const PostItem: React.FC<PostItemProps> = ({
   homePage,
   imageURL,
 }) => {
+  const [user] = useAuthState(auth);
   const router = useRouter();
   const [loadingImage, setLoadingImage] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const { communityStateValue, onJoinOrLeaveCommunity, communities, loading } =
+    useCommunityData();
   const singlePostPage = !onSelectPost;
   const [error, setError] = useState(false);
   const handleDelete = async (
@@ -134,43 +142,84 @@ const PostItem: React.FC<PostItemProps> = ({
             align="center"
             fontSize={"9pt"}
             color={"gray.500"}
+            justify={"space-between"}
           >
-            {homePage && (
-              <>
-                {imageURL ? (
-                  <Image
-                    src={imageURL}
-                    borderRadius={"full"}
-                    boxSize={"18px"}
-                    mr={2}
-                  />
-                ) : (
-                  <Icon
-                    as={FaReddit}
-                    fontSize={"18pt"}
-                    mr={1}
-                    color={"blue.500"}
-                  />
-                )}
-                <Link href={`/r/${post.communityId}`}>
-                  <Text
-                    fontWeight={700}
-                    _hover={{ textDecoration: "underline" }}
-                    onClick={(event) => event.stopPropagation()}
-                  >{`r/${post.communityId}`}</Text>
-                </Link>
-                <Icon as={BsDot} color={"gray.500"} fontSize={8} />
-              </>
-            )}
-            <Text>
-              Posted by u/{post.creatorDisplayName}{" "}
-              <Box
-                as="span"
-                display={homePage ? { base: "none", sm: "unset" } : {}}
-              >
-                {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}
-              </Box>
-            </Text>
+            <Flex align={"center"}>
+              {homePage && (
+                <>
+                  {imageURL ? (
+                    <Image
+                      src={imageURL}
+                      borderRadius={"full"}
+                      boxSize={"18px"}
+                      mr={2}
+                    />
+                  ) : (
+                    <Icon
+                      as={FaReddit}
+                      fontSize={"18pt"}
+                      mr={1}
+                      color={"blue.500"}
+                    />
+                  )}
+                  <Link href={`/r/${post.communityId}`}>
+                    <Text
+                      fontWeight={700}
+                      _hover={{ textDecoration: "underline" }}
+                      onClick={(event) => event.stopPropagation()}
+                    >{`r/${post.communityId}`}</Text>
+                  </Link>
+                  <Icon as={BsDot} color={"gray.500"} fontSize={8} />
+                </>
+              )}
+              <Text>
+                Posted by u/{post.creatorDisplayName}{" "}
+                <Box
+                  as="span"
+                  display={homePage ? { base: "none", sm: "unset" } : {}}
+                >
+                  {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}
+                </Box>
+              </Text>
+            </Flex>
+            <Flex>
+              {homePage && (
+                <Button
+                  variant={
+                    communityStateValue.mySnippets.find(
+                      (x) => x.communityId === post.communityId
+                    )
+                      ? "outline"
+                      : "solid"
+                  }
+                  height="25px"
+                  pr={4}
+                  pl={4}
+                  onClick={(
+                    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                  ) => {
+                    event.stopPropagation();
+                    onJoinOrLeaveCommunity(
+                      communities.find(
+                        (x) => x.id === post.communityId
+                      ) as Community,
+                      communityStateValue.mySnippets.find(
+                        (x) => x.communityId === post.communityId
+                      )
+                        ? true
+                        : false
+                    );
+                  }}
+                  isLoading={loading}
+                >
+                  {communityStateValue.mySnippets.find(
+                    (x) => x.communityId === post.communityId
+                  )
+                    ? "Joined"
+                    : "Join"}
+                </Button>
+              )}
+            </Flex>
           </Stack>
           <Text fontSize={"12pt"} fontWeight={600}>
             {post.title}
