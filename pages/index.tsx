@@ -100,7 +100,11 @@ const Home: NextPage = () => {
     }));
   }, []);
   useEffect(() => {
-    if (communityStateValue.snippetsFetched) buildUserHomeFeed();
+    if (
+      communityStateValue.snippetsFetched &&
+      communityStateValue.mySnippets.length >= 3
+    )
+      buildUserHomeFeed();
   }, [communityStateValue.snippetsFetched]);
   useEffect(() => {
     if (!user || (communityStateValue.mySnippets.length < 3 && !loadingUser))
