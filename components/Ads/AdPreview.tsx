@@ -86,14 +86,14 @@ const AdPreview: React.FC<AdPreviewProps> = ({
           _hover={{ bg: "gray.200", borderRadius: "sm", color: "#4379ff" }}
         />
       </Flex>
-      <Flex direction={"column"} maxWidth={"450px"} width={"100%"}>
+      <Flex direction={"column"} width={"100%"}>
         {error && (
           <Alert status="error">
             <AlertIcon />
             <Text>{error}</Text>
           </Alert>
         )}
-        <Stack spacing={1} p={"10px"} maxWidth={"500px"}>
+        <Stack spacing={1} p={"10px"}>
           <Stack
             direction={"row"}
             spacing={0.6}
