@@ -11,13 +11,13 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
   const { postStateValue, onSelectPost } = usePosts();
 
   return (
-    <Flex justify={"center"} p={"16px 0px"}>
+    <Flex justify={"center"} p={"16px 0px 4px 0px"}>
       <Flex width={"95%"} maxWidth={"860px"}>
         <Stack>
-          <Text fontSize={"10pt"} fontWeight={600} mb={4}>
+          <Text fontSize={"10pt"} fontWeight={600} mb={1}>
             Trending today
           </Text>
-          <Flex gap={4} maxHeight={"125px"}>
+          <Flex gap={4} maxHeight={"170px"}>
             {postStateValue.posts
               .filter((post) => post.imageURL)
               .reverse()

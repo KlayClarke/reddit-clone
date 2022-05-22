@@ -11,7 +11,7 @@ type PopularPostsProps = {};
 const PopularPosts: React.FC<PopularPostsProps> = () => {
   return (
     <>
-      <Text fontSize={"10pt"} fontWeight={600} mb={4}>
+      <Text fontSize={"10pt"} fontWeight={600} mb={3}>
         Popular posts
       </Text>
       <Flex
