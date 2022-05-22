@@ -46,6 +46,7 @@ type PostItemProps = {
   onDeletePost: (post: Post) => Promise<boolean>;
   homePage?: boolean;
   imageURL?: string;
+  ad?: boolean;
 };
 
 const PostItem: React.FC<PostItemProps> = ({
@@ -110,7 +111,7 @@ const PostItem: React.FC<PostItemProps> = ({
           }
           color={userVoteValue === 1 ? "brand.100" : "gray.400"}
           fontSize={22}
-          onClick={(event) => onVote(event, post, 1, post.communityId)}
+          onClick={(event) => onVote(event, post, 1, post.communityId!)}
           cursor={"pointer"}
           _hover={{ bg: "gray.200", borderRadius: "sm", color: "brand.100" }}
         />
@@ -123,7 +124,7 @@ const PostItem: React.FC<PostItemProps> = ({
           }
           color={userVoteValue === -1 ? "#4379ff" : "gray.400"}
           fontSize={22}
-          onClick={(event) => onVote(event, post, -1, post.communityId)}
+          onClick={(event) => onVote(event, post, -1, post.communityId!)}
           cursor={"pointer"}
           _hover={{ bg: "gray.200", borderRadius: "sm", color: "#4379ff" }}
         />
