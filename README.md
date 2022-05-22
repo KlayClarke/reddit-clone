@@ -4,7 +4,7 @@ I decided to create this Reddit clone to learn Typescript. Before this project, 
 
 This project was also the first time that I'd used Chakra UI for styles, and the first time that I'd used Google Firebase for storage, as opposed to my preferred MongoDB.
 
-## Why A Reddit Clone?
+## What I Learned?
 
 This project is important to me because it represents the beginning of my Typescript journey.
 
