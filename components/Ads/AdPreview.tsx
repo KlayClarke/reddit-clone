@@ -107,9 +107,7 @@ const AdPreview: React.FC<AdPreviewProps> = ({
                 <Text fontWeight={700} color={"blue.500"}>
                   PROMOTED
                 </Text>
-                <Icon as={BsDot} color={"gray.500"} fontSize={8} />
               </>
-              <Text>Posted by u/{user?.email?.split("@")[0]} </Text>
             </Flex>
           </Stack>
           <Text
@@ -134,22 +132,23 @@ const AdPreview: React.FC<AdPreviewProps> = ({
               </a>
             </Link>
           )}
-          <Flex justify={"center"} align={"center"}>
-            {(!selectedFile || loadingImage) && (
-              <Skeleton height={"200px"} width={"100%"} borderRadius={4} />
-            )}
-            {selectedFile ||
-              (imageURL && (
+          {(imageURL || selectedFile) && (
+            <Flex justify={"center"} align={"center"}>
+              {(!selectedFile || loadingImage) && (
+                <Skeleton height={"200px"} width={"100%"} borderRadius={4} />
+              )}
+              {(selectedFile || imageURL) && (
                 <Image
                   maxHeight={"460px"}
                   alt="Post image"
                   onLoad={() => setLoadingImage(false)}
                   display={loadingImage ? "none" : "unset"}
-                  maxWidth={"80%"}
+                  maxWidth={"100%"}
                   src={selectedFile ? selectedFile : imageURL}
                 />
-              ))}
-          </Flex>
+              )}
+            </Flex>
+          )}
         </Stack>
       </Flex>
     </Flex>
