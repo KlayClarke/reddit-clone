@@ -46,7 +46,7 @@ const ad: React.FC<adProps> = () => {
         />
       </>
       <>
-        <AdPreview />
+        <AdPreview adTitle={adTitle} />
       </>
     </PageContent>
   );
