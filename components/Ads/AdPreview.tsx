@@ -118,14 +118,16 @@ const AdPreview: React.FC<AdPreviewProps> = ({
           </Text>
           {adLink && adLink.length > 8 && (
             <Link href={adLink}>
-              <Text
-                fontSize={"10pt"}
-                color={"blue.500"}
-                isTruncated={true}
-                _hover={{ cursor: "pointer", textDecoration: "underline" }}
-              >
-                {adLink}
-              </Text>
+              <a target={"_blank"}>
+                <Text
+                  fontSize={"10pt"}
+                  color={"blue.500"}
+                  isTruncated={true}
+                  _hover={{ cursor: "pointer", textDecoration: "underline" }}
+                >
+                  {adLink}
+                </Text>
+              </a>
             </Link>
           )}
           <Flex justify={"center"} align={"center"}>
