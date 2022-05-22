@@ -27,10 +27,7 @@ const submit: React.FC = () => {
       </>
       <>
         {communityStateValue.currentCommunity && (
-          <About
-            communityData={communityStateValue.currentCommunity}
-            postPage
-          />
+          <About communityData={communityStateValue.currentCommunity} />
         )}
       </>
     </PageContent>
