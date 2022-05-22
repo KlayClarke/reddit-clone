@@ -139,6 +139,7 @@ const useCommunityData = () => {
     setLoading(false);
   };
   useEffect(() => {
+    fetchCommunities();
     if (!user) {
       setCommunityStateValue((prev) => ({
         ...prev,
@@ -148,7 +149,6 @@ const useCommunityData = () => {
       return;
     }
     getSnippets();
-    fetchCommunities();
   }, [user]);
   return {
     communityStateValue,
