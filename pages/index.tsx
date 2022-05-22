@@ -103,7 +103,8 @@ const Home: NextPage = () => {
     if (communityStateValue.snippetsFetched) buildUserHomeFeed();
   }, [communityStateValue.snippetsFetched]);
   useEffect(() => {
-    if (!user && !loadingUser) buildNoUserHomeFeed();
+    if (!user || (communityStateValue.mySnippets.length < 3 && !loadingUser))
+      buildNoUserHomeFeed();
   }, [user, loadingUser]);
   return (
     <>
