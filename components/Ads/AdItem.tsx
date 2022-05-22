@@ -7,7 +7,14 @@ type AdItemProps = {
   imageURL?: string;
 };
 
-const AdItem: React.FC<AdItemProps> = ({ adTitle, adLink }) => {
-  return <AdPreview notPreview adTitle={adTitle} adLink={adLink} />;
+const AdItem: React.FC<AdItemProps> = ({ adTitle, adLink, imageURL }) => {
+  return (
+    <AdPreview
+      notPreview
+      adTitle={adTitle}
+      adLink={adLink}
+      imageURL={imageURL}
+    />
+  );
 };
 export default AdItem;
