@@ -30,7 +30,7 @@ const ad: React.FC<adProps> = () => {
   const [selectedTab, setSelectedTab] = useState(formTabs[0].title);
   const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
   const [adTitle, setAdTitle] = useState("");
-  const [adLink, setAdLink] = useState("");
+  const [adLink, setAdLink] = useState("https://");
   return (
     <PageContent>
       <>
@@ -49,7 +49,11 @@ const ad: React.FC<adProps> = () => {
         />
       </>
       <>
-        <AdPreview adTitle={adTitle} selectedFile={selectedFile} />
+        <AdPreview
+          adTitle={adTitle}
+          adLink={adLink}
+          selectedFile={selectedFile}
+        />
       </>
     </PageContent>
   );
