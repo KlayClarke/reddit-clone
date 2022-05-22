@@ -1,6 +1,7 @@
 import {
   Alert,
   AlertIcon,
+  Box,
   Flex,
   Icon,
   Image,
@@ -163,7 +164,12 @@ const PostItem: React.FC<PostItemProps> = ({
             )}
             <Text>
               Posted by u/{post.creatorDisplayName}{" "}
-              {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}
+              <Box
+                as="span"
+                display={homePage ? { base: "none", sm: "unset" } : {}}
+              >
+                {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}
+              </Box>
             </Text>
           </Stack>
           <Text fontSize={"12pt"} fontWeight={600}>
