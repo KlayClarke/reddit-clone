@@ -33,9 +33,11 @@ import { Post } from "../../atoms/postsAtom";
 import { auth } from "../../firebase/clientApp";
 import useCommunityData from "../../hooks/useCommunityData";
 
-type AdPreviewProps = {};
+type AdPreviewProps = {
+  adTitle: string;
+};
 
-const AdPreview: React.FC<AdPreviewProps> = ({}) => {
+const AdPreview: React.FC<AdPreviewProps> = ({ adTitle }) => {
   const [loadingImage, setLoadingImage] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [error, setError] = useState(false);
@@ -105,7 +107,7 @@ const AdPreview: React.FC<AdPreviewProps> = ({}) => {
             </Flex>
           </Stack>
           <Text fontSize={"12pt"} fontWeight={600}>
-            {}
+            {adTitle}
           </Text>
           <Flex justify={"center"} align={"center"}>
             {loadingImage && (
