@@ -1,4 +1,5 @@
 import {
+  Button,
   Flex,
   Icon,
   Image,
@@ -19,17 +20,18 @@ import useCommunityData from "../../hooks/useCommunityData";
 const Recommendations: React.FC = () => {
   const [user] = useAuthState(auth);
   const [topCommunities, setTopCommunities] = useState<Community[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { communityStateValue, communities } = useCommunityData();
+  const [loadingFetch, setLoadingFetch] = useState(true);
+  const { communityStateValue, communities, onJoinOrLeaveCommunity, loading } =
+    useCommunityData();
   const getCommunityRecommendations = () => {
     setTopCommunities(communities);
     setTimeout(() => {
-      setLoading(false);
+      setLoadingFetch(false);
     }, 3000);
   };
   useEffect(() => {
     getCommunityRecommendations();
-  }, [communities, communityStateValue.mySnippets, user]);
+  }, [communities, user]);
   return (
     <Flex
       direction={"column"}
@@ -55,7 +57,7 @@ const Recommendations: React.FC = () => {
         Top Communities
       </Flex>
       <Flex direction={"column"}>
-        {loading ? (
+        {loadingFetch ? (
           <Stack mt={2} p={3}>
             <Flex justify={"space-between"} align={"center"}>
               <SkeletonCircle size={"10"} />
@@ -92,7 +94,7 @@ const Recommendations: React.FC = () => {
                     <Flex align={"center"} width={"90%"}>
                       <Icon
                         as={HiOutlineChevronUp}
-                        fontSize={20}
+                        fontSize={17}
                         mr={2}
                         color={"green.400"}
                       />
@@ -117,6 +119,40 @@ const Recommendations: React.FC = () => {
                         isTruncated
                       >{`r/${community.id}`}</Text>
                     </Flex>
+                    <Button
+                      variant={
+                        communityStateValue.mySnippets.find(
+                          (x) => x.communityId === community.id
+                        )
+                          ? "outline"
+                          : "solid"
+                      }
+                      height="25px"
+                      pr={4}
+                      pl={4}
+                      onClick={(
+                        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                      ) => {
+                        event.stopPropagation();
+                        onJoinOrLeaveCommunity(
+                          communities.find(
+                            (x) => x.id === community.id
+                          ) as Community,
+                          communityStateValue.mySnippets.find(
+                            (x) => x.communityId === community.id
+                          )
+                            ? true
+                            : false
+                        );
+                      }}
+                      isLoading={loading}
+                    >
+                      {communityStateValue.mySnippets.find(
+                        (x) => x.communityId === community.id
+                      )
+                        ? "Joined"
+                        : "Join"}
+                    </Button>
                   </Flex>
                 </Link>
               );
