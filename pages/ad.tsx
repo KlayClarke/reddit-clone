@@ -21,9 +21,7 @@ const formTabs: TabItem[] = [
   },
 ];
 
-type adProps = {};
-
-const ad: React.FC<adProps> = () => {
+const Ad: React.FC = () => {
   const [user] = useAuthState(auth);
   const router = useRouter();
   const { onVote, onSelectPost, onDeletePost } = usePosts();
@@ -58,4 +56,4 @@ const ad: React.FC<adProps> = () => {
     </PageContent>
   );
 };
-export default ad;
+export default Ad;

@@ -9,7 +9,7 @@ import NewPostForm from "../../../components/Posts/NewPostForm";
 import { auth } from "../../../firebase/clientApp";
 import useCommunityData from "../../../hooks/useCommunityData";
 
-const submit: React.FC = () => {
+const Submit: React.FC = () => {
   const [user] = useAuthState(auth);
   const { communityStateValue } = useCommunityData();
   return (
@@ -33,4 +33,4 @@ const submit: React.FC = () => {
     </PageContent>
   );
 };
-export default submit;
+export default Submit;
