@@ -22,10 +22,9 @@ const SearchInput: React.FC<SearchInputProps> = ({ user }) => {
       maxWidth={user ? "auto" : "700px"}
     >
       <InputGroup>
-        <InputLeftElement
-          pointerEvents="none"
-          children={<SearchIcon color="gray.400" mb={1} />}
-        />
+        <InputLeftElement pointerEvents="none">
+          <SearchIcon color="gray.400" mb={1} />
+        </InputLeftElement>
         <Input
           type="text"
           placeholder="Search Reddit"
