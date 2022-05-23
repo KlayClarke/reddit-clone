@@ -18,6 +18,7 @@ import { communityState } from "../atoms/communitiesAtom";
 import { Post } from "../atoms/postsAtom";
 import AdItem from "../components/Ads/AdItem";
 import CreatePostLink from "../components/Community/CreatePostLink";
+import Recommendations from "../components/Community/Recommendations";
 import PopularPosts from "../components/Homepage/PopularPosts";
 import TrendingToday from "../components/Homepage/TrendingToday";
 import PageContent from "../components/Layout/PageContent";
@@ -183,7 +184,9 @@ const Home: NextPage = () => {
             </Stack>
           )}
         </>
-        <>{/* recommendations */}</>
+        <>
+          <Recommendations />
+        </>
       </PageContent>
     </>
   );
