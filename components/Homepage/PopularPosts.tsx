@@ -20,7 +20,7 @@ const PopularPosts: React.FC<PopularPostsProps> = () => {
         border={"1px solid"}
         borderColor={"gray.300"}
         p={2}
-        mb={1}
+        mb={4}
       >
         <Flex align={"center"}>
           <Flex
