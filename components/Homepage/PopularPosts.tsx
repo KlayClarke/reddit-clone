@@ -11,9 +11,6 @@ type PopularPostsProps = {};
 const PopularPosts: React.FC<PopularPostsProps> = () => {
   return (
     <>
-      <Text fontSize={"10pt"} fontWeight={600} mb={3}>
-        Popular posts
-      </Text>
       <Flex
         justify={"space-between"}
         align={"center"}
@@ -23,7 +20,7 @@ const PopularPosts: React.FC<PopularPostsProps> = () => {
         border={"1px solid"}
         borderColor={"gray.300"}
         p={2}
-        mb={4}
+        mb={1}
       >
         <Flex align={"center"}>
           <Flex
