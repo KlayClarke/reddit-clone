@@ -24,6 +24,7 @@ const Recommendations: React.FC = () => {
   const [user] = useAuthState(auth);
   const [topCommunities, setTopCommunities] = useState<Community[]>([]);
   const [loadingFetch, setLoadingFetch] = useState(true);
+  const [viewingAll, setViewingAll] = useState(false);
   const { communityStateValue, communities, onJoinOrLeaveCommunity, loading } =
     useCommunityData();
   const getCommunityRecommendations = () => {
@@ -34,6 +35,9 @@ const Recommendations: React.FC = () => {
   };
   const getRandomInt = (max: number) => {
     return Math.floor(Math.random() * max);
+  };
+  const handleClick = () => {
+    setViewingAll(!viewingAll);
   };
   useEffect(() => {
     getCommunityRecommendations();
@@ -80,127 +84,129 @@ const Recommendations: React.FC = () => {
           </Stack>
         ) : (
           <>
-            {topCommunities.map((community, index) => {
-              const isJoined = !!communityStateValue.mySnippets.find(
-                (snippet) => snippet.communityId === community.id
-              );
-              return (
-                <Link key={community.id} href={`/r/${community.id}`}>
-                  <Flex
-                    align={"center"}
-                    fontSize={"10pt"}
-                    borderBottom={"1px solid"}
-                    borderColor={"gray.200"}
-                    p={"12px 12px"}
-                    _hover={{ cursor: "pointer" }}
-                  >
-                    <Flex width={"5%"} align={"center"}>
-                      <Text fontWeight={700}>{index + 1}</Text>
-                    </Flex>
-                    <Flex align={"center"} width={"90%"}>
-                      {getRandomInt(3) === 2 &&
-                      index !== topCommunities.length - 1 ? (
-                        <>
-                          <Icon
-                            as={HiOutlineChevronUp}
-                            fontSize={17}
-                            mr={2}
-                            color={"green.400"}
-                          />
-                        </>
-                      ) : getRandomInt(3) === 1 && index > 0 ? (
-                        <>
-                          <Icon
-                            as={HiOutlineChevronDown}
-                            fontSize={17}
-                            mr={2}
-                            color={"red.400"}
-                          />
-                        </>
-                      ) : getRandomInt(3) === 0 ? (
-                        <>
-                          <Icon
-                            as={VscDash}
-                            fontSize={17}
-                            mr={2}
-                            color={"black"}
-                            visibility={"hidden"}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <Icon
-                            as={VscDash}
-                            fontSize={17}
-                            mr={2}
-                            color={"black"}
-                            visibility={"hidden"}
-                          />
-                        </>
-                      )}
+            {topCommunities
+              .slice(0, viewingAll ? undefined : 3)
+              .map((community, index) => {
+                const isJoined = !!communityStateValue.mySnippets.find(
+                  (snippet) => snippet.communityId === community.id
+                );
+                return (
+                  <Link key={community.id} href={`/r/${community.id}`}>
+                    <Flex
+                      align={"center"}
+                      fontSize={"10pt"}
+                      borderBottom={"1px solid"}
+                      borderColor={"gray.200"}
+                      p={"12px 12px"}
+                      _hover={{ cursor: "pointer" }}
+                    >
+                      <Flex width={"5%"} align={"center"}>
+                        <Text fontWeight={700}>{index + 1}</Text>
+                      </Flex>
+                      <Flex align={"center"} width={"90%"}>
+                        {getRandomInt(3) === 2 &&
+                        index !== topCommunities.length - 1 ? (
+                          <>
+                            <Icon
+                              as={HiOutlineChevronUp}
+                              fontSize={17}
+                              mr={2}
+                              color={"green.400"}
+                            />
+                          </>
+                        ) : getRandomInt(3) === 1 && index > 0 ? (
+                          <>
+                            <Icon
+                              as={HiOutlineChevronDown}
+                              fontSize={17}
+                              mr={2}
+                              color={"red.400"}
+                            />
+                          </>
+                        ) : getRandomInt(3) === 0 ? (
+                          <>
+                            <Icon
+                              as={VscDash}
+                              fontSize={17}
+                              mr={2}
+                              color={"black"}
+                              visibility={"hidden"}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <Icon
+                              as={VscDash}
+                              fontSize={17}
+                              mr={2}
+                              color={"black"}
+                              visibility={"hidden"}
+                            />
+                          </>
+                        )}
 
-                      {community.imageURL ? (
-                        <Image
-                          src={community.imageURL}
-                          borderRadius={"full"}
-                          boxSize={"28px"}
-                          mr={2}
-                        />
-                      ) : (
-                        <Icon
-                          as={FaReddit}
-                          fontSize={30}
-                          color={"brand.100"}
-                          mr={2}
-                        />
-                      )}
-                      <Text
-                        fontWeight={700}
-                        maxWidth={"50%"}
-                        isTruncated
-                      >{`r/${community.id}`}</Text>
-                    </Flex>
-                    <Button
-                      variant={
-                        communityStateValue.mySnippets.find(
-                          (x) => x.communityId === community.id
-                        )
-                          ? "outline"
-                          : "solid"
-                      }
-                      height="25px"
-                      pr={4}
-                      pl={4}
-                      onClick={(
-                        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                      ) => {
-                        event.stopPropagation();
-                        onJoinOrLeaveCommunity(
-                          communities.find(
-                            (x) => x.id === community.id
-                          ) as Community,
+                        {community.imageURL ? (
+                          <Image
+                            src={community.imageURL}
+                            borderRadius={"full"}
+                            boxSize={"28px"}
+                            mr={2}
+                          />
+                        ) : (
+                          <Icon
+                            as={FaReddit}
+                            fontSize={30}
+                            color={"brand.100"}
+                            mr={2}
+                          />
+                        )}
+                        <Text
+                          fontWeight={700}
+                          maxWidth={"50%"}
+                          isTruncated
+                        >{`r/${community.id}`}</Text>
+                      </Flex>
+                      <Button
+                        variant={
                           communityStateValue.mySnippets.find(
                             (x) => x.communityId === community.id
                           )
-                            ? true
-                            : false
-                        );
-                      }}
-                      isLoading={loading}
-                    >
-                      {communityStateValue.mySnippets.find(
-                        (x) => x.communityId === community.id
-                      )
-                        ? "Joined"
-                        : "Join"}
-                    </Button>
-                  </Flex>
-                </Link>
-              );
-            })}
+                            ? "outline"
+                            : "solid"
+                        }
+                        height="25px"
+                        pr={4}
+                        pl={4}
+                        onClick={(
+                          event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                        ) => {
+                          event.stopPropagation();
+                          onJoinOrLeaveCommunity(
+                            communities.find(
+                              (x) => x.id === community.id
+                            ) as Community,
+                            communityStateValue.mySnippets.find(
+                              (x) => x.communityId === community.id
+                            )
+                              ? true
+                              : false
+                          );
+                        }}
+                        isLoading={loading}
+                      >
+                        {communityStateValue.mySnippets.find(
+                          (x) => x.communityId === community.id
+                        )
+                          ? "Joined"
+                          : "Join"}
+                      </Button>
+                    </Flex>
+                  </Link>
+                );
+              })}
             <Box p={"10px 20px"}>
-              <Button height={"30px"} width={"100%"}>
-                View All
+              <Button height={"30px"} width={"100%"} onClick={handleClick}>
+                {viewingAll ? "Hide" : "View All"}
               </Button>
             </Box>
           </>
