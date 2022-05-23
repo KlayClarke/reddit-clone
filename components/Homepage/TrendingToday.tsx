@@ -28,7 +28,17 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                 .slice(0, 3)
                 .map((post, index) => (
                   <React.Fragment key={index}>
-                    <Box maxW="333px" width={"100%"}>
+                    <Box
+                      maxW="100%"
+                      width={"100%"}
+                      display={
+                        index === 2
+                          ? { base: "none", lg: "unset" }
+                          : index === 1
+                          ? { base: "none", md: "unset" }
+                          : {}
+                      }
+                    >
                       <Image
                         borderRadius="md"
                         src={post.imageURL}
@@ -45,7 +55,6 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                         zIndex={1}
                       />
                       <Flex
-                        display={{ base: "none", md: "initial" }}
                         _hover={{ cursor: "pointer" }}
                         onClick={() => onSelectPost(post)}
                       >
