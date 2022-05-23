@@ -11,6 +11,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaReddit } from "react-icons/fa";
+import { HiOutlineChevronUp } from "react-icons/hi";
 import { Community, communityState } from "../../atoms/communitiesAtom";
 import { auth } from "../../firebase/clientApp";
 import useCommunityData from "../../hooks/useCommunityData";
@@ -18,12 +19,17 @@ import useCommunityData from "../../hooks/useCommunityData";
 const Recommendations: React.FC = () => {
   const [user] = useAuthState(auth);
   const [topCommunities, setTopCommunities] = useState<Community[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { communityStateValue, communities } = useCommunityData();
-  const getCommunityRecommendations = () => {};
+  const getCommunityRecommendations = () => {
+    setTopCommunities(communities);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  };
   useEffect(() => {
     getCommunityRecommendations();
-  }, []);
+  }, [communities, communityStateValue.mySnippets, user]);
   return (
     <Flex
       direction={"column"}
@@ -36,7 +42,7 @@ const Recommendations: React.FC = () => {
         align={"flex-end"}
         color={"white"}
         p={"6px 10px"}
-        height={"70px"}
+        height={"80px"}
         borderRadius={"4px 4px 0px 0px"}
         fontWeight={700}
         bgImage={"url(/images/recCommsArt.png)"}
@@ -65,7 +71,7 @@ const Recommendations: React.FC = () => {
           </Stack>
         ) : (
           <>
-            {communities.map((community, index) => {
+            {topCommunities.map((community, index) => {
               const isJoined = !!communityStateValue.mySnippets.find(
                 (snippet) => snippet.communityId === community.id
               );
@@ -76,13 +82,19 @@ const Recommendations: React.FC = () => {
                     fontSize={"10pt"}
                     borderBottom={"1px solid"}
                     borderColor={"gray.200"}
-                    p={"10px 12px"}
+                    p={"12px 12px"}
                     _hover={{ cursor: "pointer" }}
                   >
-                    <Flex width={"10%"} align={"center"}>
-                      <Text>{index + 1}</Text>
+                    <Flex width={"5%"} align={"center"}>
+                      <Text fontWeight={700}>{index + 1}</Text>
                     </Flex>
                     <Flex align={"center"} width={"90%"}>
+                      <Icon
+                        as={HiOutlineChevronUp}
+                        fontSize={20}
+                        mr={2}
+                        color={"green.400"}
+                      />
                       {community.imageURL ? (
                         <Image
                           src={community.imageURL}
