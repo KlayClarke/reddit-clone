@@ -21,7 +21,7 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
             <Text fontSize={"10pt"} fontWeight={600} mb={1}>
               Trending today
             </Text>
-            <Flex gap={4} maxHeight={"170px"}>
+            <Flex gap={4} maxHeight={"170px"} zIndex={0}>
               {postStateValue.posts
                 .filter((post) => post.imageURL)
                 .reverse()
