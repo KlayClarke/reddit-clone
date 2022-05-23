@@ -37,6 +37,7 @@ const Recommendations: React.FC = () => {
       borderRadius={4}
       border={"1px solid"}
       borderColor={"gray.300"}
+      maxWidth={"324px"}
     >
       <Flex
         align={"flex-end"}
@@ -110,7 +111,11 @@ const Recommendations: React.FC = () => {
                           mr={2}
                         />
                       )}
-                      <Text fontWeight={700}>{`r/${community.id}`}</Text>
+                      <Text
+                        fontWeight={700}
+                        maxWidth={"50%"}
+                        isTruncated
+                      >{`r/${community.id}`}</Text>
                     </Flex>
                   </Flex>
                 </Link>
