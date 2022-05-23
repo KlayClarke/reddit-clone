@@ -250,8 +250,11 @@ const PostItem: React.FC<PostItemProps> = ({
             cursor={"pointer"}
           >
             <Icon as={BsChat} mr={2} />
-            <Text fontSize={"9pt"} display={{ base: "none", sm: "unset" }}>
-              {post.numberOfComments} Comments
+            <Text fontSize={"9pt"}>
+              {post.numberOfComments}{" "}
+              <Box as={"span"} display={{ base: "none", md: "unset" }}>
+                Comments
+              </Box>{" "}
             </Text>
           </Flex>
           <Flex
