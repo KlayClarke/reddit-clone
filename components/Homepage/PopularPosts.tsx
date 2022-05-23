@@ -78,7 +78,7 @@ const PopularPosts: React.FC<PopularPostsProps> = () => {
               mr={3}
               _hover={{ bg: "gray.100", cursor: "pointer" }}
               borderRadius={"full"}
-              p={"4px 8px"}
+              p={"6px 10px"}
               display={{ md: "none", xl: "flex" }}
             >
               <Icon
