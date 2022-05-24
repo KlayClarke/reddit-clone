@@ -6,5 +6,5 @@ This project was also the first time that I'd used Chakra UI for styles, and the
 
 ## What I Learned?
 
-This project is important to me because it represents the beginning of my Typescript journey.
+Typescript is revered for good reason. I will try to never write a line of vanilla JS where Typescript is available.
 
