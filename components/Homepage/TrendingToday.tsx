@@ -32,11 +32,13 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                       maxW="100%"
                       width={"100%"}
                       display={
-                        index === 2
+                        index === 3
                           ? { base: "none", lg: "unset" }
-                          : index === 1
+                          : index === 2
                           ? { base: "none", md: "unset" }
-                          : {}
+                          : index === 1
+                          ? { base: "none", sm: "unset" }
+                          : ""
                       }
                     >
                       <Image
