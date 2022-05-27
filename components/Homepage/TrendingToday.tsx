@@ -25,7 +25,7 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
               {postStateValue.posts
                 .filter((post) => post.imageURL)
                 .reverse()
-                .slice(0, 3)
+                .slice(0, 4)
                 .map((post, index) => (
                   <React.Fragment key={index}>
                     <Box
@@ -63,6 +63,7 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                           top={"195px"}
                           zIndex={10}
                           p={"5px 10px"}
+                          display={{ base: "none", md: "unset" }}
                         >
                           <Text
                             color={"white"}
