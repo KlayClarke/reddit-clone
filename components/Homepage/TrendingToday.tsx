@@ -65,7 +65,6 @@ const TrendingToday: React.FC<TrendingTodayProps> = () => {
                           top={"195px"}
                           zIndex={10}
                           p={"5px 10px"}
-                          display={{ base: "none", md: "unset" }}
                         >
                           <Text
                             color={"white"}
