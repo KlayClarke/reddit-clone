@@ -248,7 +248,6 @@ const PostItem: React.FC<PostItemProps> = ({
               <video
                 controls
                 src={post.videoURL}
-                autoPlay
                 loop
                 preload="auto"
                 muted
