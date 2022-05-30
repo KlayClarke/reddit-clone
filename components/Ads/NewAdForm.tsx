@@ -83,18 +83,34 @@ const NewAdPostForm: React.FC<NewAdPostFormProps> = ({
       );
       // check for selected file
       if (selectedFile) {
-        // store file in storage
-        const imageRef = ref(
-          storage,
-          `posts/${postDocumentReference.id}/image`
-        );
-        await uploadString(imageRef, selectedFile, "data_url");
-        const downloadURL = await getDownloadURL(imageRef);
+        // if image
+        if (selectedFile.includes("image")) {
+          // store file in storage
+          const imageRef = ref(
+            storage,
+            `posts/${postDocumentReference.id}/image`
+          );
+          await uploadString(imageRef, selectedFile, "data_url");
+          const downloadURL = await getDownloadURL(imageRef);
 
-        // update post document by adding image url
-        await updateDoc(postDocumentReference, {
-          imageURL: downloadURL,
-        });
+          // update post document by adding image url
+          await updateDoc(postDocumentReference, {
+            imageURL: downloadURL,
+          });
+        } else if (selectedFile?.includes("video/mp4")) {
+          // store file in storage
+          const videoRef = ref(
+            storage,
+            `posts/${postDocumentReference.id}/video`
+          );
+          await uploadString(videoRef, selectedFile, "data_url");
+          const downloadURL = await getDownloadURL(videoRef);
+
+          // update post document by adding image url
+          await updateDoc(postDocumentReference, {
+            videoURL: downloadURL,
+          });
+        }
       }
       // redirect user back to community page using the router
       router.back();

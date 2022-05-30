@@ -39,6 +39,7 @@ type AdPreviewProps = {
   adLink?: string;
   selectedFile?: string;
   imageURL?: string;
+  videoURL?: string;
 };
 
 const AdPreview: React.FC<AdPreviewProps> = ({
@@ -47,6 +48,7 @@ const AdPreview: React.FC<AdPreviewProps> = ({
   imageURL,
   selectedFile,
   notPreview,
+  videoURL,
 }) => {
   const [loadingImage, setLoadingImage] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
@@ -142,6 +144,18 @@ const AdPreview: React.FC<AdPreviewProps> = ({
                   src={selectedFile ? selectedFile : imageURL}
                 />
               )}
+            </Flex>
+          )}
+          {videoURL && (
+            <Flex justify={"center"} align={"center"}>
+              <video
+                controls
+                src={videoURL}
+                autoPlay
+                loop
+                preload="auto"
+                muted
+              ></video>
             </Flex>
           )}
         </Stack>

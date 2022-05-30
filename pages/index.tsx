@@ -131,16 +131,20 @@ const Home: NextPage = () => {
     if (
       communityStateValue.snippetsFetched &&
       communityStateValue.mySnippets.length >= 3
-    )
+    ) {
       buildUserHomeFeed();
+      console.log(adPost);
+    }
   }, [
     communityStateValue.snippetsFetched,
     communityStateValue.mySnippets.length,
     adPost,
   ]);
   useEffect(() => {
-    if (!user || (communityStateValue.mySnippets.length < 3 && !loadingUser))
+    if (!user || (communityStateValue.mySnippets.length < 3 && !loadingUser)) {
       buildNoUserHomeFeed();
+      console.log(adPost);
+    }
   }, [user, loadingUser, communityStateValue.mySnippets.length, adPost]);
 
   return (
@@ -158,6 +162,7 @@ const Home: NextPage = () => {
                   adTitle={adPost.title}
                   adLink={adPost.link}
                   imageURL={adPost.imageURL}
+                  videoURL={adPost.videoURL}
                 />
               )}
               {postStateValue.posts.map((post) => (
