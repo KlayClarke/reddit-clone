@@ -7,7 +7,7 @@ import {
   Icon,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsLink45Deg, BsMic } from "react-icons/bs";
 import { BiPoll } from "react-icons/bi";
 import { IoDocumentText, IoImagesOutline } from "react-icons/io5";
@@ -96,18 +96,34 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
       );
       // check for selected file
       if (selectedFile) {
-        // store file in storage
-        const imageRef = ref(
-          storage,
-          `posts/${postDocumentReference.id}/image`
-        );
-        await uploadString(imageRef, selectedFile, "data_url");
-        const downloadURL = await getDownloadURL(imageRef);
+        // if image
+        if (selectedFile.includes("image")) {
+          // store file in storage
+          const imageRef = ref(
+            storage,
+            `posts/${postDocumentReference.id}/image`
+          );
+          await uploadString(imageRef, selectedFile, "data_url");
+          const downloadURL = await getDownloadURL(imageRef);
 
-        // update post document by adding image url
-        await updateDoc(postDocumentReference, {
-          imageURL: downloadURL,
-        });
+          // update post document by adding image url
+          await updateDoc(postDocumentReference, {
+            imageURL: downloadURL,
+          });
+        } else if (selectedFile?.includes("video/mp4")) {
+          // store file in storage
+          const videoRef = ref(
+            storage,
+            `posts/${postDocumentReference.id}/video`
+          );
+          await uploadString(videoRef, selectedFile, "data_url");
+          const downloadURL = await getDownloadURL(videoRef);
+
+          // update post document by adding image url
+          await updateDoc(postDocumentReference, {
+            videoURL: downloadURL,
+          });
+        }
       }
       // redirect user back to community page using the router
       router.back();
@@ -129,6 +145,13 @@ const NewPostForm: React.FC<NewPostFormProps> = ({
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    if (selectedFile) {
+      console.log(selectedFile.includes("video/mp4"));
+      console.log(selectedFile);
+    }
+  }, [selectedFile]);
   return (
     <Flex direction={"column"} bg={"white"} borderRadius={4} mt={2}>
       <Flex width={"100%"}>

@@ -1,6 +1,7 @@
 import {
   Alert,
   AlertIcon,
+  AspectRatio,
   Box,
   Button,
   Flex,
@@ -46,6 +47,7 @@ type PostItemProps = {
   onDeletePost: (post: Post) => Promise<boolean>;
   homePage?: boolean;
   imageURL?: string;
+  videoURL?: string;
   ad?: boolean;
 };
 
@@ -58,10 +60,12 @@ const PostItem: React.FC<PostItemProps> = ({
   onDeletePost,
   homePage,
   imageURL,
+  videoURL,
 }) => {
   const [user] = useAuthState(auth);
   const router = useRouter();
   const [loadingImage, setLoadingImage] = useState(true);
+  const [loadingVideo, setLoadingVideo] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const { communityStateValue, onJoinOrLeaveCommunity, communities, loading } =
     useCommunityData();
@@ -238,6 +242,22 @@ const PostItem: React.FC<PostItemProps> = ({
                 onLoad={() => setLoadingImage(false)}
                 display={loadingImage ? "none" : "unset"}
               />
+            </Flex>
+          )}
+          {post.videoURL && (
+            <Flex justify={"center"} align={"center"}>
+              {loadingVideo && (
+                <Skeleton height={"200px"} width={"100%"} borderRadius={4} />
+              )}
+              <video
+                controls
+                src={post.videoURL}
+                autoPlay
+                loop
+                preload="auto"
+                muted
+                onLoad={() => setLoadingVideo(false)}
+              ></video>
             </Flex>
           )}
         </Stack>
