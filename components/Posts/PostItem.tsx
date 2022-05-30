@@ -252,7 +252,6 @@ const PostItem: React.FC<PostItemProps> = ({
                 loop
                 preload="auto"
                 muted
-                onLoad={() => setLoadingVideo(false)}
               ></video>
             </Flex>
           )}
